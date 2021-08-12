@@ -1,12 +1,18 @@
-import  mongoose  from "mongoose";
+import mongoose from "mongoose";
+import User from "./users.models";
 
 const followerSchema = new mongoose.Schema({
-    following:[{
 
-    }],
-    follower:[{
+    following: {
+        type: User,
+        required: true
+    },
 
-    }]
+    follower: {
+        type: User,
+        required: true
+    }
+    
 })
 
 const Follower = mongoose.model("Follower", followerSchema);

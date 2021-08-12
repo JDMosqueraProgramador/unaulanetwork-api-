@@ -4,8 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-
-require('./database');
+import './database';
 
 const main = async () => {
 

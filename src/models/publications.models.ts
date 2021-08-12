@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 import Group from "./groups.models";
+import User from "./users.models";
 
 const publiactionSchema = new mongoose.Schema({
     user: {
-        type: String,
+        type: User,
         required: true,
     },
     visibility: {
@@ -37,7 +38,7 @@ const publiactionSchema = new mongoose.Schema({
     comments: [
         {
             user: {
-                type: String,
+                type: User,
                 required: true,
             },
             comment: {

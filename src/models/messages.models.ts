@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from './users.models';
 
 const messageSchema = new mongoose.Schema({
     body: {
@@ -6,11 +7,11 @@ const messageSchema = new mongoose.Schema({
         required: true,
     },
     transmitter: {
-        type: String,
+        type: User,
         required: true,
     },
     receiver: {
-        type: String,
+        type: User,
         required: true,
     },
     date: {

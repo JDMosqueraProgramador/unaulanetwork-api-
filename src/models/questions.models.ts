@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import User from "./users.models";
 
 const questionSchema = new mongoose.Schema({
     user: {
-        type: String,
+        type: User,
         required: true,
     },
     question: {
@@ -29,7 +30,7 @@ const questionSchema = new mongoose.Schema({
     answers: [
         {
             user: {
-                type: String,
+                type: User,
                 required: true,
             },
             description: {
