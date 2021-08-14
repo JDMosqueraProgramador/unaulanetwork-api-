@@ -1,9 +1,10 @@
+import { uploadFiles } from './../helpers/uploadFile';
 import { Request, Response } from "express";
+import multer from "multer";
 import User from "../models/users.models";
+
  
 export const setUsers = async (req: Request, res: Response) => {
-    
-    // const { name, firstName, lastName, dateOfBirth, work, description, profilePicture, phone, competences } = req.body;
     
     const {
         username,
@@ -17,17 +18,18 @@ export const setUsers = async (req: Request, res: Response) => {
         lastName2,
     } = req.body;
 
-    // const profilePhoto = req.files.profilePhoto;
 
-    //const namePhoto = await loadProfilePhoto(req.files);
+    const profilePicture = req.file?.path;
 
+    
     const userDb = await User.findOne({ username });
 
     if (userDb) {
         return res.status(400).json({
-            msg: "El usuario ya existe",
+            error: "El usuario ya existe",
         });
     }
+
 
     const user = new User({
         username,
@@ -39,13 +41,14 @@ export const setUsers = async (req: Request, res: Response) => {
         name,
         lastName,
         lastName2,
+        profilePicture,
     });
 
     try {
 
         await user.save();
 
-        return res.status(200).json(user);
+        return res.status(200).json({user});
     
     } catch (error) {
     

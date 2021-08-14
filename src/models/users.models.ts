@@ -12,25 +12,14 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         required: [true, "La fecha de nacimiento es obligatoria"],
     },
-    profilePhoto: {
+    profilePicture: {
         type: String,
-        // required: false,
         required: false,
     },
     check: {
         type: Boolean,
         required: true,
         default: false,
-    },
-
-    faculty: {
-        type: String,
-        required: true,
-    },
-    career: {
-        type: String,
-        required: false,
-        default: "jobless",
     },
     description: {
         type: String,

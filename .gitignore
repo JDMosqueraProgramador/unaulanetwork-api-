@@ -2,3 +2,5 @@
 node_modules
 #typeScript
 dist
+#Imagenes
+*.png
