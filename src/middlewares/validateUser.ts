@@ -12,7 +12,6 @@ export const validationUser = async(req: Request, res: Response, next: any) => {
         
     }
         
-
     next();
 
 } 

@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import multer from "multer";
 import User from "../models/users.models";
 
- 
 export const setUsers = async (req: Request, res: Response) => {
     
     const {
@@ -12,10 +11,7 @@ export const setUsers = async (req: Request, res: Response) => {
         work,
         description,
         achievement,
-        competences,
-        name,
-        lastName,
-        lastName2,
+        competences
     } = req.body;
 
 
@@ -38,9 +34,6 @@ export const setUsers = async (req: Request, res: Response) => {
         achievement,
         description,
         competences,
-        name,
-        lastName,
-        lastName2,
         profilePicture,
     });
 
@@ -52,7 +45,7 @@ export const setUsers = async (req: Request, res: Response) => {
     
     } catch (error) {
     
-        return res.status(404).json(error);
+        return res.status(403).json(error);
     
     }
 
