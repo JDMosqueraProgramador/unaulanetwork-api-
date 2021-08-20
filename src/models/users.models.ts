@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Competence from './competences.models';
 
+
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -47,13 +48,8 @@ const UserSchema = new mongoose.Schema({
     ],
     competences: [
         {
-            type: Object,
-            require: false,
-
-            competenceId: {
-                type: Competence,
-                required: true,
-            },
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Competences",
         },
     ],
 });

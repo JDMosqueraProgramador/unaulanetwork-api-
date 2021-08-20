@@ -10,13 +10,10 @@ const Router = express.Router();
 
 const upload = multer({ storage });
 
-
 Router.get("/:user", getOneUser);
 
 Router.post("/", [validationUser,
     validateFields,
     upload.single("profilePicture")], setUsers);
 
-
-    
 export default Router;
