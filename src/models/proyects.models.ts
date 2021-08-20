@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const proyectSchema =new mongoose.Schema({
+const proyectSchema = new mongoose.Schema({
     name: String
 });
 

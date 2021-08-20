@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import Competence from './competences.models';
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -50,8 +50,8 @@ const UserSchema = new mongoose.Schema({
             type: Object,
             require: false,
 
-            name: {
-                type: String,
+            competenceId: {
+                type: Competence,
                 required: true,
             },
         },
