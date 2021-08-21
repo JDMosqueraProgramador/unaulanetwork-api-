@@ -2,6 +2,7 @@ import express from "express";
 import {
     getCompetences,
     createOneCompetence,
+
 } from "../controllers/competences.controllers";
 
 const Router = express.Router();
