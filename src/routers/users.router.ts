@@ -1,14 +1,11 @@
-import { uploadFiles, storage } from './../helpers/uploadFile';
+import { uploadFiles } from './../helpers/uploadFile';
 import express from "express";
-import { Request, Response } from "express";
-import multer from "multer";
 import { getOneUser, setUsers } from "../controllers/users.controllers";
 import { validationUser } from '../middlewares/validateUser';
 import { validateFields } from '../middlewares/validateData';
+import { upload } from "../helpers/multer";
 
 const Router = express.Router();
-
-const upload = multer({ storage });
 
 Router.get("/:user", getOneUser);
 

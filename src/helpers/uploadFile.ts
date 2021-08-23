@@ -1,32 +1,32 @@
 import { stringify, v4 as uuidv4 } from "uuid";
-import multer from "multer";
+import path from "path";
 
-//No se donde ubicar esto
+export const uploadFiles = (file: any) => {
 
-export const storage = multer.diskStorage({
-    destination: (req, res, cb) => {
-        cb(null, "./images");
-    },
-    filename: (req, file, cb) => {
-        const name = uploadFiles(file);
+    return new Promise((resolve, reject) => {
+        
+        const profilePicture = file;
 
-        cb(null, name);
-    },
-});
-
-
-export const uploadFiles = (file:any) => {
-
-    const profilePicture = file;
-    
-        const nameTemp = profilePicture.originalname.split('.');
+        const nameTemp = profilePicture.originalname.split(".");
 
         const extension = nameTemp[nameTemp.length - 1];
+
+        const nameFile = uuidv4() + "." + extension;
+
+        const uploadPath = path.join(__dirname, "../../images", nameTemp);
+  
+
+        profilePicture.mv(uploadPath, (err: any) => {
+            
+            if (err) {
+        
+                reject(err)
+            }
+            
+            resolve(nameFile)
+        
+        })
     
-        const nameFile = uuidv4() + '.' + extension;
-
-        return(nameFile)
-
+    })
 }
-
  
