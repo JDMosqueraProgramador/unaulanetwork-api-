@@ -15,5 +15,4 @@ export const validateFields = (req:Request,res:Response,next : any) => {
         
     }
     
-
 }

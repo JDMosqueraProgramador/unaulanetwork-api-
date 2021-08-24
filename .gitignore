@@ -3,6 +3,5 @@ node_modules
 #typeScript
 dist
 #Imagenes
-*.png
 #.env
 *.env

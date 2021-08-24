@@ -1,7 +1,12 @@
-import { uploadFiles } from './../helpers/uploadFile';
+import path  from "path";
 import { Request, Response } from "express";
-import multer from "multer";
 import User from "../models/users.models";
+
+require("dotenv").config();
+
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config(process.env.CLOUDINARY_URL);
 
 export const setUsers = async (req: Request, res: Response) => {
     
@@ -14,10 +19,6 @@ export const setUsers = async (req: Request, res: Response) => {
         competences
     } = req.body;
 
-
-    const profilePicture = req.file?.path;
-
-    
     const userDb = await User.findOne({ username });
 
     if (userDb) {
@@ -27,26 +28,44 @@ export const setUsers = async (req: Request, res: Response) => {
     }
 
 
-    const user = new User({
-        username,
-        dayOfBirth,
-        work,
-        achievement,
-        description,
-        competences,
-        profilePicture,
-    });
+    if (req.file) {
 
-    try {
+        const { path } = req.file;
 
+        const { secure_url } = await cloudinary.uploader.upload(path);
+
+        const profilePicture = secure_url;
+
+        const user = new User({
+            username,
+            dayOfBirth,
+            work,
+            achievement,
+            description,
+            competences,
+            profilePicture,
+        });
+
+         await user.save();
+
+         return res.status(200).json({ user });
+    
+
+    } else {
+
+         const user = new User({
+             username,
+             dayOfBirth,
+             work,
+             achievement,
+             description,
+             competences
+             
+         });
+        
         await user.save();
 
-        return res.status(200).json({user});
-    
-    } catch (error) {
-    
-        return res.status(403).json(error);
-    
+        return res.status(200).json({ user });
     }
 
 };
