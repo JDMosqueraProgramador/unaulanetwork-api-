@@ -32,14 +32,9 @@ export const setUsers = async (req: Request, res: Response) => {
 
         const { path } = req.file;
 
-        console.log(path);
-
         const { secure_url } = await cloudinary.uploader.upload(path);
-        console.log(secure_url);
 
         const profilePicture = secure_url;
-
-        console.log(profilePicture);
 
         const user = new User({
             username,

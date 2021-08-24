@@ -22,6 +22,11 @@ const UserSchema = new mongoose.Schema({
         required: true,
         default: false,
     },
+    work: {
+        name: String,
+        required: true,
+        defauld : "Unemployed"
+    },
     description: {
         type: String,
         required: true,
