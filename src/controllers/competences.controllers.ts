@@ -18,6 +18,8 @@ export const getCompetences = async (req: Request, res: Response) => {
 
 };
 
+
+
 export const createOneCompetence = async (req: Request, res: Response) => {
 
     const {name, description, area} = req.body;
