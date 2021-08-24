@@ -16,7 +16,7 @@ export const setUsers = async (req: Request, res: Response) => {
         work,
         description,
         achievement,
-        competences
+        compotences,
     } = req.body;
 
     const userDb = await User.findOne({ username });
@@ -42,7 +42,7 @@ export const setUsers = async (req: Request, res: Response) => {
             work,
             achievement,
             description,
-            competences,
+            compotences,
             profilePicture,
         });
 
@@ -53,13 +53,14 @@ export const setUsers = async (req: Request, res: Response) => {
 
     } else {
 
-         const user = new User({
+        const user = new User({
+             
              username,
              dayOfBirth,
              work,
-             achievement,
-             description,
-             competences
+            achievement,
+             compotences,
+             description
              
          });
         
