@@ -22,7 +22,7 @@ export const getCompetences = async (req: Request, res: Response) => {
 
     //TODO: Hacer regex en la búsqueda de competencias:, {description: new RegExp(competenceSearch, 'g')}
                                                             //let re = new RegExp(`\{competenceSearch}\`, 'g');
-    let competenceSearch = "Web";
+    /*let competenceSearch = "Web";
     await Competence.find(({name: new RegExp(competenceSearch, 'g')}), (err: any, competences: any)=>{
         
         //Si encuentra error en el server, lo muestra
@@ -34,7 +34,7 @@ export const getCompetences = async (req: Request, res: Response) => {
         //Si no se encuentra, lanza un código 404
         return res.status(404).json({ error: "No se encontraron resultados" });
 
-    })
+    })*/
 
 };
 
