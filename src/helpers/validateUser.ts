@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { isNamedExportBindings } from 'typescript';
 import User from '../models/users.models';
 
 
@@ -14,4 +15,15 @@ export const validationUser = async(req: Request, res: Response, next: any) => {
         
     next();
 
-} 
+}
+
+
+export const existUserById = async (username:any) => {
+    
+    const existUser = await User.findOne({username})
+    
+    if (!existUser) {
+        throw new Error('usuario no encontrado')
+    }
+
+}
