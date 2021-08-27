@@ -8,7 +8,6 @@ const UserSchema = new mongoose.Schema({
         required: [true, "El username es obligatorio"],
         unique: true,
     },
-
     dayOfBirth: {
         type: Date,
         required: [true, "La fecha de nacimiento es obligatoria"],
@@ -20,9 +19,10 @@ const UserSchema = new mongoose.Schema({
     check: {
         type: Boolean,
         required: true,
-        default: false,
+        default: true,
     },
     work: {
+        type: String,
         name: String,
         required: true,
         defauld : "Unemployed"
@@ -53,6 +53,7 @@ const UserSchema = new mongoose.Schema({
     ],
     competences: [
         {
+            
             type: mongoose.Schema.Types.ObjectId,
             ref: "Competences",
         },

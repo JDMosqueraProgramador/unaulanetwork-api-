@@ -4,12 +4,15 @@ import Competence from '../models/competences.models';
 //Método asíncrono para obtener las competenecias.
 export const getCompetences = async (req: Request, res: Response) => {
 
-    const {area,name} = req.query;
-    const parameters = (area != undefined) ? {area}:{name};
+    const {name} = req.query;
+    console.log(name);
+    //const {competenceSearch} = req.body;
+    //const parameters = (area != undefined) ? {area}:{name};
+    const searchCompetences = String(name);
 
     //Se intenta buscar las competencias:
-    await Competence.find( parameters , (err: any, competences: any) => {
-        
+    await Competence.find({$or:[{name: new RegExp(searchCompetences, 'gi')}, {description:new RegExp(searchCompetences, 'gi')}]} , (err: any, competences: any) => {
+       
         //Si resulta error, muestra un códgio 500 y el error
         if (err) return res.status(500).json({ error: err });
 
@@ -18,14 +21,20 @@ export const getCompetences = async (req: Request, res: Response) => {
 
         //Si no se encuentra, lanza un código 404
         return res.status(404).json({ error: "No se encontraron resultados" });
-    }); 
+    }).limit(5); 
 
-    //TODO: Hacer regex en la búsqueda de competencias:, {description: new RegExp(competenceSearch, 'g')}
-                                                            //let re = new RegExp(`\{competenceSearch}\`, 'g');
-    /*let competenceSearch = "Web";
-    await Competence.find(({name: new RegExp(competenceSearch, 'g')}), (err: any, competences: any)=>{
-        
-        //Si encuentra error en el server, lo muestra
+};
+
+export const getCompetencesByArea = async(req: Request, res: Response) =>{
+    const {area} = req.query;
+    console.log(area);
+    const searchCompetences = String(area);
+    // const parameters = (area != undefined) ? {area}:{name};
+    
+    //Se intenta buscar las competencias:
+    await Competence.find({$or:[{area:new RegExp(searchCompetences, 'gi')} ]} , (err: any, competences: any) => {
+       
+        //Si resulta error, muestra un códgio 500 y el error
         if (err) return res.status(500).json({ error: err });
 
         //Si encuentra, retorna las competencias encontradas
@@ -33,9 +42,7 @@ export const getCompetences = async (req: Request, res: Response) => {
 
         //Si no se encuentra, lanza un código 404
         return res.status(404).json({ error: "No se encontraron resultados" });
-
-    })*/
-
+    }).limit(5); 
 };
 
 //Método ansícrono para crear una competencia
@@ -52,10 +59,6 @@ export const createOneCompetence = async (req: Request, res: Response) => {
     }
 
     const competence = new Competence({ name, description, area });
-        
     await competence.save();
-   
     return res.status(200).json({ competence });
-
-
 }
