@@ -21,12 +21,23 @@ export const existUserById = async (username:any) => {
     const existUser = await User.findOne({username})
     
     if (!existUser) {
-        throw new Error('usuario no encontrado')
+        throw new Error('Usuario no encontrado')
     }
 
 }
 
-export const validateDate = async (req: Request, res: Response, next: any) => {
+export const validateDate = async (dayOfBirth:any) => {
+
+    const birth = await User.findOne({dayOfBirth});
+    const validate = new Date(birth).getFullYear() - new Date ().getFullYear();
+
+
+    if(validate >= 15){
+       throw new Error('Fecha invalida');
+    }
+}
+
+/*export const validateDate = async (req: Request, res: Response, next: any) => {
 
     const {dayOfBirth} = req.body;
     const validate = new Date(dayOfBirth).getFullYear() - new Date ().getFullYear();
@@ -39,5 +50,5 @@ export const validateDate = async (req: Request, res: Response, next: any) => {
         res.status(400).json({error: 'Fecha invalida'});
     }
  
-}
+}*/
 
