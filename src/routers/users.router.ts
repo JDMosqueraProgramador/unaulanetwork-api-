@@ -1,12 +1,19 @@
 import { uploadFiles } from './../helpers/uploadFile';
 import express from "express";
-import {check} from "express-validator"
+
+import { check } from "express-validator";
+
 import {
     getOneUser,
     setUsers,
     updateUser,
 } from "../controllers/users.controllers";
-import { validationUser, existUserById } from '../helpers/validateUser';
+
+import {
+    validationUser,
+    existUserById,
+    validateDate,
+} from "../helpers/validateUser";
 import { validateInfo } from "../middlewares/validateData";
 import { upload } from "../helpers/multer";
 
@@ -14,9 +21,16 @@ const Router = express.Router();
 
 Router.get("/:user", getOneUser);
 
-Router.post("/", [validationUser,
-    validateInfo,
-    upload.single("profilePicture")], setUsers);
+Router.post(
+    "/",
+    [
+        upload.single("profilePicture"),
+        check('username').custom(validationUser),
+        check("dayOfBirth").custom(validateDate),
+        validateInfo,
+    ],
+    setUsers
+);
 
 
 Router.put(

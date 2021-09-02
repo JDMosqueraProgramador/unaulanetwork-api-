@@ -1,29 +1,57 @@
-import { Request, Response } from 'express';
-import { isNamedExportBindings } from 'typescript';
-import User from '../models/users.models';
+import User from "../models/users.models";
 
 
-export const validationUser = async(req: Request, res: Response, next: any) => {
+
+export const validationUser = async (username : any) => {
+
+    const user = checkEmail(username);
+
+    await User.findOne({ username: user }),
+        (err: any) => {
+            console.log(err);
+        };
     
-    const user = req.body.username;
+    if (user) {
+         
+         throw new Error("Ya se encuentra un usuario registrado");
+     }
 
-    await User.findOne({ username: user }), (err: any) => {
-            
-        if(user) return res.status(404).json({error: 'Usuario registrado'})
-        
-    }
-        
-    next();
-
-}
-
-
-export const existUserById = async (username:any) => {
     
-    const existUser = await User.findOne({username})
-    
+};
+
+
+export const existUserById = async (username: any) => {
+    const existUser = await User.findOne({ username });
+
     if (!existUser) {
-        throw new Error('usuario no encontrado')
+        throw new Error("usuario no encontrado");
     }
+};
+
+
+//Le extraemos el correo al username esto del correo
+export const checkEmail =  (username: any) => {
+    
+
+    if (username.includes("@")) {
+        const charToDel: number = username.length - 14;
+
+        let userName = username.substr(0, charToDel);
+
+        const user = userName;
+
+        return user;
+    }
+
+    return username;
+
+};
+
+
+export const validateDate = async (dayOfBirth: any) =>{
+    
+    
+    console.log(dayOfBirth);
+
 
 }

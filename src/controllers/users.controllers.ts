@@ -1,7 +1,9 @@
-import path  from "path";
 import { Request, Response } from "express";
 import User from "../models/users.models";
 import { uploadImage } from '../helpers/uploadFile';
+import { checkEmail } from "../helpers/validateUser";
+
+
 
 require("dotenv").config();
 
@@ -20,6 +22,10 @@ export const setUsers = async (req: Request, res: Response) => {
         compotences,
     } = req.body;
 
+    
+    const userName = checkEmail(username);
+
+
     const userDb = await User.findOne({ username });
 
     if (userDb) {
@@ -33,12 +39,12 @@ export const setUsers = async (req: Request, res: Response) => {
 
         const { path } = req.file;
 
-        const { secure_url } = await cloudinary.uploader.upload(path);
+        const { secure_url } = await cloudinary.uploader.upload(path,{folder : "profile"});
 
         const profilePicture = secure_url;
 
         const user = new User({
-            username,
+            username : userName,
             dayOfBirth,
             work,
             achievement,
@@ -55,15 +61,15 @@ export const setUsers = async (req: Request, res: Response) => {
     } else {
 
         const user = new User({
-             
-             username,
-             dayOfBirth,
-             work,
+
+            username: userName,
+            dayOfBirth,
+            work,
             achievement,
-             compotences,
-             description
-             
-         });
+            compotences,
+            description,
+
+        });
         
         await user.save();
 
@@ -76,7 +82,8 @@ export const getOneUser = async (req: Request, res: Response) => {
 
     const userParam = req.params.user;
 
-    await User.findOne({ username : userParam }, (err: any, user: any) => {
+    await User.findOne({ username: userParam }, (err: any, user: any) => {
+        
         if (err) return res.status(500).json({ error: err });
 
         if (user) return res.status(200).json(user);

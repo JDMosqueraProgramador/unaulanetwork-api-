@@ -4,7 +4,8 @@ import Competence from '../models/competences.models';
 //Método asíncrono para obtener las competenecias.
 export const getCompetences = async (req: Request, res: Response) => {
 
-    const {name} = req.query;
+    const { name } = req.query;
+    
     console.log(name);
     //const {competenceSearch} = req.body;
     //const parameters = (area != undefined) ? {area}:{name};
