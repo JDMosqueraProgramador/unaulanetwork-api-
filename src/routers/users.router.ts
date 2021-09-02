@@ -14,10 +14,11 @@ const Router = express.Router();
 
 Router.get("/:user", getOneUser);
 
-Router.post("/", [validationUser,
+Router.post("/", [
+    upload.single("profilePicture"),
+    validationUser,
     check("dayOfBirth").custom(validateDate),
-    validateInfo,
-    upload.single("profilePicture")], setUsers);
+    validateInfo], setUsers);
 
 
 Router.put(

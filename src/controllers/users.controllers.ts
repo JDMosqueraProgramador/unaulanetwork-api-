@@ -59,7 +59,7 @@ export const setUsers = async (req: Request, res: Response) => {
              username,
              dayOfBirth,
              work,
-            achievement,
+             achievement,
              compotences,
              description
              
