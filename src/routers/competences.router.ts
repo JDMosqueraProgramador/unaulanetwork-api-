@@ -8,7 +8,6 @@ import {
 } from "../controllers/competences.controllers";
 
 
-
 const Router = express.Router();
 
 Router.get("/search", getCompetences)
