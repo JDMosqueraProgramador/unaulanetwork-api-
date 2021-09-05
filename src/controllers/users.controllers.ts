@@ -23,11 +23,12 @@ export const setUsers = async (req: Request, res: Response) => {
         compotences,
     } = req.body;
 
-
     const userName = checkEmail(username);
 
 
-    const userDb = await User.findOne({ username });
+   
+
+    const userDb = await User.findOne({ userName });
 
     if (userDb) {
         return res.status(400).json({

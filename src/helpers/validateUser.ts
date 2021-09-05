@@ -18,21 +18,20 @@ export const validationUser = async (username : any) => {
             
             if(err) return new Error("F")
             
-        };
-    
-   
-
-    
+        }; 
 };
 
 
 
 
 //Le extraemos el correo al username esto del correo
-export const checkEmail =  (username: any) => {
+export const checkEmail =  (username: string) => {
     
 
-    if (username.includes("@")) {
+    console.log(username);
+    
+    if (username.includes('@')) {
+
         const charToDel: number = username.length - 14;
 
         let userName = username.substr(0, charToDel);
@@ -59,9 +58,9 @@ export const existUserById = async (username:any) => {
 
 }
 
-export const validateDate = async (dayOfBirth: any) => {
 
-    
+export const validateDate =async  (dayOfBirth: any) => {
+
     const birth = dayOfBirth;
     const validate = new Date((birth)).getFullYear();
     const dateToday = new Date().getFullYear() - validate;
