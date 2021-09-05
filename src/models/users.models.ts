@@ -52,8 +52,8 @@ const UserSchema = new mongoose.Schema({
         },
     ],
     competences: [
+        
         {
-            
             type: mongoose.Schema.Types.ObjectId,
             ref: "Competences",
         },

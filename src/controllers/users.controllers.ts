@@ -3,6 +3,7 @@ import User from "../models/users.models";
 import Competences from "../models/competences.models";
 import { uploadImage } from '../helpers/uploadFile';
 import { checkEmail } from "../helpers/validateUser";
+import Competence from "../models/competences.models";
 
 
 
@@ -20,13 +21,13 @@ export const setUsers = async (req: Request, res: Response) => {
         work,
         description,
         achievement,
-        compotences,
+        competences,
     } = req.body;
+
+
 
     const userName = checkEmail(username);
 
-
-   
 
     const userDb = await User.findOne({ userName });
 
@@ -51,9 +52,11 @@ export const setUsers = async (req: Request, res: Response) => {
             work,
             achievement,
             description,
-            compotences,
+            competences,
             profilePicture,
         });
+
+        
 
         await user.save();
 
@@ -63,14 +66,12 @@ export const setUsers = async (req: Request, res: Response) => {
     } else {
 
         const user = new User({
-
             username: userName,
             dayOfBirth,
             work,
             achievement,
-            compotences,
+            competences,
             description,
-
         });
 
         await user.save();
@@ -95,7 +96,7 @@ export const getOneUser = async (req: Request, res: Response) => {
         });
 
     });
-    
+
     return res.status(404).json({ error: "Usuario no encontrado" });
 
 };
