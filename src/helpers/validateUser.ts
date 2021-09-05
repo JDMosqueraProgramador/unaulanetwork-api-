@@ -7,20 +7,25 @@ export const validationUser = async (username : any) => {
     const user = checkEmail(username);
 
     await User.findOne({ username: user }),
-        (err: any) => {
-            console.log(err);
+        
+        (err: any, user: any) => {
+        
+             if (user) {
+                 throw new Error("Ya se encuentra un usuario registrado");
+            }
+            
+            if(err) return new Error("F")
+            
         };
     
-    if (user) {
-         
-         throw new Error("Ya se encuentra un usuario registrado");
-     }
+   
 
     
 };
 
 
 export const existUserById = async (username: any) => {
+
     const existUser = await User.findOne({ username });
 
     if (!existUser) {

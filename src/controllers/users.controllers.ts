@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/users.models";
+import Competences from "../models/competences.models";
 import { uploadImage } from '../helpers/uploadFile';
 import { checkEmail } from "../helpers/validateUser";
 
@@ -82,14 +83,24 @@ export const getOneUser = async (req: Request, res: Response) => {
 
     const userParam = req.params.user;
 
-    await User.findOne({ username: userParam }, (err: any, user: any) => {
+    // await User.findOne({ username: userParam }, (err: any, user: any) => {
         
-        if (err) return res.status(500).json({ error: err });
+    //     if (err) return res.status(500).json({ error: err });
 
-        if (user) return res.status(200).json(user);
+    //     if (user) return res.status(200).json(user);
 
-        return res.status(404).json({ error: "Usuario no encontrado" });
+    //     return res.status(404).json({ error: "Usuario no encontrado" });
+    // });
+
+    await User.findOne({ username: userParam }, (err: any, user: any) => {
+
+        Competences.populate(user, { path: "competences", select:' name'}, (err, user) => {
+
+            res.status(200).send(user);
+        });
     });
+
+
 };
 
 
