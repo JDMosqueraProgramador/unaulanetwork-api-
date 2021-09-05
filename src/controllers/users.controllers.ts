@@ -13,7 +13,7 @@ const cloudinary = require("cloudinary").v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 export const setUsers = async (req: Request, res: Response) => {
-    
+
     const {
         username,
         dayOfBirth,
@@ -23,7 +23,7 @@ export const setUsers = async (req: Request, res: Response) => {
         compotences,
     } = req.body;
 
-    
+
     const userName = checkEmail(username);
 
 
@@ -40,12 +40,12 @@ export const setUsers = async (req: Request, res: Response) => {
 
         const { path } = req.file;
 
-        const { secure_url } = await cloudinary.uploader.upload(path,{folder : "profile"});
+        const { secure_url } = await cloudinary.uploader.upload(path, { folder: "profile" });
 
         const profilePicture = secure_url;
 
         const user = new User({
-            username : userName,
+            username: userName,
             dayOfBirth,
             work,
             achievement,
@@ -54,10 +54,10 @@ export const setUsers = async (req: Request, res: Response) => {
             profilePicture,
         });
 
-         await user.save();
+        await user.save();
 
-         return res.status(200).json({ user });
-    
+        return res.status(200).json({ user });
+
 
     } else {
 
@@ -71,7 +71,7 @@ export const setUsers = async (req: Request, res: Response) => {
             description,
 
         });
-        
+
         await user.save();
 
         return res.status(200).json({ user });
@@ -84,20 +84,22 @@ export const getOneUser = async (req: Request, res: Response) => {
     const userParam = req.params.user;
 
     // await User.findOne({ username: userParam }, (err: any, user: any) => {
-        
-    //     if (err) return res.status(500).json({ error: err });
 
-    //     if (user) return res.status(200).json(user);
 
-    //     return res.status(404).json({ error: "Usuario no encontrado" });
     // });
 
     await User.findOne({ username: userParam }, (err: any, user: any) => {
 
-        Competences.populate(user, { path: "competences", select:' name'}, (err, user) => {
+        Competences.populate(user, { path: "competences", select: ' name' }, (err, user) => {
 
-            res.status(200).send(user);
+            if (err) return res.status(500).json({ error: err });
+
+            if (user) return res.status(200).json(user);
+            
         });
+
+        return res.status(404).json({ error: "Usuario no encontrado" });
+
     });
 
 
@@ -106,17 +108,17 @@ export const getOneUser = async (req: Request, res: Response) => {
 
 
 export const updateUser = async (req: Request, res: Response) => {
-    
+
 
     let data;
 
     const { username, model } = req.params;
 
-    const {...rest } = req.body;
+    const { ...rest } = req.body;
 
     if (req.file) {
-    
-        uploadImage("users",username);
+
+        uploadImage("users", username);
 
         const { path } = req.file;
 
@@ -124,18 +126,18 @@ export const updateUser = async (req: Request, res: Response) => {
 
         const profilePicture = secure_url;
 
-         data = {
+        data = {
             profilePicture,
             rest,
         }
     } else {
 
-         data = rest;
+        data = rest;
     }
- 
 
-    await User.findOneAndUpdate({ username }, data, { new: true }, (err: any,user:any) => {
-        
+
+    await User.findOneAndUpdate({ username }, data, { new: true }, (err: any, user: any) => {
+
         if (err) return res.status(500).json({ error: err });
 
         if (user) return res.status(200).json(user);
