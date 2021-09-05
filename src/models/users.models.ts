@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         name: String,
         required: true,
-        defauld : "Unemployed"
+        defauld: "Unemployed",
     },
     description: {
         type: String,
@@ -52,7 +52,6 @@ const UserSchema = new mongoose.Schema({
         },
     ],
     competences: [
-        
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Competences",
