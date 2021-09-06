@@ -25,7 +25,6 @@ export const setUsers = async (req: Request, res: Response) => {
     } = req.body;
 
 
-
     const userName = checkEmail(username);
 
 
