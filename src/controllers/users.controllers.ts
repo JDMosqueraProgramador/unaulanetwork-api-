@@ -91,7 +91,6 @@ const userParam = req.params.user;
 
             if (err) return res.status(500).json({ error: err });
 
-
             if (user) {
 
                 return res.status(200).json(user)
