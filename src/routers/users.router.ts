@@ -11,18 +11,23 @@ import {
 import { validationUser, existUserById, validateDate } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
 import { upload } from "../helpers/multer";
+import userSchemaValidator from "../middlewares/usersValidate"
+
+import { tokenValidation } from  "../middlewares/validateToken"
 
 const Router = express.Router();
 
-Router.get("/:user", getOneUser);
+Router.get("/:user", tokenValidation , getOneUser);
 
 Router.post(
     "/",
     [
+        userSchemaValidator,
         upload.single("profilePicture"),
         check("username").custom(validationUser),
         check("dayOfBirth").custom(validateDate),
-        validateInfo,
+        validateInfo
+        
     ],
     setUsers
 );
