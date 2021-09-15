@@ -13,9 +13,11 @@ import { validateInfo } from "../middlewares/validateData";
 import { upload } from "../helpers/multer";
 import userSchemaValidator from "../middlewares/usersValidate"
 
+import { tokenValidation } from  "../middlewares/validateToken"
+
 const Router = express.Router();
 
-Router.get("/:user", getOneUser);
+Router.get("/:user", tokenValidation , getOneUser);
 
 Router.post(
     "/",

@@ -37,12 +37,12 @@ const userSchemaValidator = checkSchema({
                 }
             }
         },
-        description:{
+        /*description:{
             isLength:{
                 options:{min:12,max:100},
                 errorMessage:"La descripción debe tener una logintud entre 12 y 100 caracteres."
             }
-        }
+        }*/
 
     })
 
