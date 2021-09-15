@@ -8,27 +8,20 @@ export const validationUser = async (username : any) => {
 
     const user = checkEmail(username);
 
-    await User.findOne({ username: user }),
+
+     const usuario = await User.findOne({ username: user })
         
-        (err: any, user: any) => {
-        
-             if (user) {
-                 throw new Error("Ya se encuentra un usuario registrado");
-            }
-            
-            if(err) return new Error("F")
-            
-        }; 
+    
+    if (usuario) {
+        throw new Error("Usuario registrado");
+    }
+    
 };
-
-
 
 
 //Le extraemos el correo al username esto del correo
 export const checkEmail =  (username: string) => {
     
-
-    console.log(username);
     
     if (username.includes('@')) {
 
