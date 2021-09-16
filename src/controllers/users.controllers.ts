@@ -15,27 +15,11 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 export const setUsers = async (req: Request, res: Response) => {
 
-    const {
-        username,
-        dayOfBirth,
-        work,
-        description,
-        achievement,
-        competences,
-    } = req.body;
+    const { ...data } = req.body;
+    
+    const username = checkEmail(data.username);
 
-
-    const userName = checkEmail(username);
-
-
-    const userDb = await User.findOne({ userName });
-
-    if (userDb) {
-        return res.status(400).json({
-            error: "El usuario ya existe",
-        });
-    }
-
+    data.username = username;
 
     if (req.file) {
 
@@ -45,16 +29,7 @@ export const setUsers = async (req: Request, res: Response) => {
 
         const profilePicture = secure_url;
 
-        const user = new User({
-            username: userName,
-            dayOfBirth,
-            work,
-            achievement,
-            description,
-            competences,
-            profilePicture,
-        });
-
+        const user = new User(data);
 
         await user.save();
 
@@ -63,14 +38,9 @@ export const setUsers = async (req: Request, res: Response) => {
 
     } else {
 
-        const user = new User({
-            username: userName,
-            dayOfBirth,
-            work,
-            achievement,
-            competences,
-            description,
-        });
+
+        const user = new User(data);
+
 
         await user.save();
 
@@ -143,5 +113,21 @@ export const updateUser = async (req: Request, res: Response) => {
         if (user) return res.status(200).json(user);
 
     });
+
+}
+
+
+
+
+
+export const follow = async (req: Request, res: Response) => {
+    
+    const { user } = req.body;
+    
+    
+
+
+
+
 
 }

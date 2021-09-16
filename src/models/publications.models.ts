@@ -3,8 +3,10 @@ import Group from "./groups.models";
 import User from "./users.models";
 
 const publiactionSchema = new mongoose.Schema({
+
     user: {
-        type: User,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
     visibility: {
@@ -38,7 +40,8 @@ const publiactionSchema = new mongoose.Schema({
     comments: [
         {
             user: {
-                type: User,
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
                 required: true,
             },
             comment: {

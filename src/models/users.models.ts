@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true, "El username es obligatorio"],
-        unique: true,
+        unique: true
     },
     dayOfBirth: {
         type: Date,
@@ -55,8 +55,28 @@ const UserSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Competences",
+            require: false
         },
     ],
+
+    following: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            require:true
+        },
+    ],
+
+    follower: [
+        
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            require: false
+        },
+    ],
+
+    
 });
 
 const User = mongoose.model("User", UserSchema);

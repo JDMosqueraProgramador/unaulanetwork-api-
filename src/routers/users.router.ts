@@ -32,6 +32,8 @@ Router.post(
     setUsers
 );
 
+Router.post("/follow",);
+
 
 Router.put(
     "/:username",
@@ -42,5 +44,7 @@ Router.put(
     ],
     updateUser
 );
+
+
 
 export default Router;
