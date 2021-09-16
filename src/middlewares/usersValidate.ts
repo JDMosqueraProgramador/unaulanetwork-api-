@@ -24,7 +24,6 @@ const userSchemaValidator = checkSchema({
             custom:{
                 options: async(value:any)=>{
                     
-                
                      const birth = value;
                      const validate = new Date((birth)).getFullYear();
                      const dateToday = new Date().getFullYear() - validate;
@@ -32,7 +31,6 @@ const userSchemaValidator = checkSchema({
                      if (dateToday <= 14) {
 
                          throw new Error('Fecha inválida');
-
                      }
                 }
             }
