@@ -35,14 +35,25 @@ const userSchemaValidator = checkSchema({
                 }
             }
         },
-        /*description:{
-            isLength:{
-                options:{min:12,max:100},
-                errorMessage:"La descripción debe tener una logintud entre 12 y 100 caracteres."
-            }
-        }*/
+        description:{
+            custom:{
+                options: async(value:any) =>{
+                    console.log(value.length)
+                     if(value.length < 12){
+                       throw new Error('Descripción demasiado corta')
+                     }
+                     else if(value.length > 100) {
 
-    })
+                         throw new Error('Descripción demasiado larga ')
+                     }
+                }
+
+
+            }
+        }
+    }
+
+)
 
 
 export default userSchemaValidator;
