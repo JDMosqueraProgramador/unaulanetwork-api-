@@ -49,12 +49,12 @@ const userSchemaValidator = checkSchema({
                 }
 
             }
-        },
-        email:{
-            custom:{
-                
-            }
         }
+        // email:{
+        //     custom:{
+                
+        //     }
+        // }
     }
 
 )
