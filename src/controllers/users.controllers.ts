@@ -29,6 +29,8 @@ export const setUsers = async (req: Request, res: Response) => {
 
         const profilePicture = secure_url;
 
+        data.profilePicture = profilePicture;
+
         const user = new User(data);
 
         await user.save();
@@ -40,7 +42,6 @@ export const setUsers = async (req: Request, res: Response) => {
 
 
         const user = new User(data);
-
 
         await user.save();
 
@@ -115,7 +116,6 @@ export const updateUser = async (req: Request, res: Response) => {
     });
 
 }
-
 
 
 
