@@ -24,7 +24,6 @@ const userSchemaValidator = checkSchema({
             custom:{
                 options: async(value:any)=>{
                     
-                
                      const birth = value;
                      const validate = new Date((birth)).getFullYear();
                      const dateToday = new Date().getFullYear() - validate;
@@ -32,19 +31,33 @@ const userSchemaValidator = checkSchema({
                      if (dateToday <= 14) {
 
                          throw new Error('Fecha inválida');
-
                      }
                 }
             }
         },
-        /*description:{
-            isLength:{
-                options:{min:12,max:100},
-                errorMessage:"La descripción debe tener una logintud entre 12 y 100 caracteres."
-            }
-        }*/
+        description:{
+            custom:{
+                options: async(value:any) =>{
+                    console.log(value.length)
+                     if(value.length < 12){
+                       throw new Error('Descripción demasiado corta')
+                     }
+                     else if(value.length > 100) {
 
-    })
+                         throw new Error('Descripción demasiado larga ')
+                     }
+                }
+
+            }
+        }
+        // email:{
+        //     custom:{
+                
+        //     }
+        // }
+    }
+
+)
 
 
 export default userSchemaValidator;

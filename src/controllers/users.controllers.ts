@@ -113,21 +113,44 @@ export const updateUser = async (req: Request, res: Response) => {
 
         if (user) return res.status(200).json(user);
 
+        if(!user) return res.status(400).json({error:err})
+
     });
 
 }
 
 
-
-
-export const follow = async (req: Request, res: Response) => {
+export const follow =  async(req: Request, res: Response) => {
     
-    const { user } = req.body;
+    const username = String(req.params.username);
+    const followerUser = await User.findOne({username:username})
     
-    
+    const {following} = req.body;
+   
+
+     const user = await User.findOne({username:username},(err: any, user: any) =>{
+
+        
+            following.map((e:any) =>{
+            user.following.push(e)
+            const followed = User.findById(e, (err: any, followed: any) =>{
+               
+                followed.followers.push(followerUser._id)
+                followed.save();
+                
+            })
+        })
+         user.save();
+
+         return res.status(200).json(user)
+    })
 
 
+}
 
+export const followers = async(req:Request, res: Response) =>{
+    const users = await User.find();
+    console.log(users)
 
 
 }

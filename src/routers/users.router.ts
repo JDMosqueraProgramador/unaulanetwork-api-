@@ -7,6 +7,8 @@ import {
     getOneUser,
     setUsers,
     updateUser,
+    follow,
+    followers
 } from "../controllers/users.controllers";
 import { validationUser, existUserById, validateDate } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
@@ -14,6 +16,7 @@ import { upload } from "../helpers/multer";
 import userSchemaValidator from "../middlewares/usersValidate"
 
 import { tokenValidation } from  "../middlewares/validateToken"
+
 
 const Router = express.Router();
 
@@ -32,7 +35,9 @@ Router.post(
     setUsers
 );
 
-Router.post("/follow",);
+Router.put("/:username/follow",
+    follow
+);
 
 
 Router.put(
@@ -41,8 +46,12 @@ Router.put(
         upload.single("profilePicture"),
         check("username").custom(existUserById),
         validateInfo,
+        
+        
     ],
-    updateUser
+        updateUser
+    
+    
 );
 
 
