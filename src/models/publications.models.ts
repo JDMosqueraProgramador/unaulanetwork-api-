@@ -3,10 +3,9 @@ import Group from "./groups.models";
 import User from "./users.models";
 
 const publiactionSchema = new mongoose.Schema({
-
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
         required: true,
     },
     visibility: {
@@ -14,12 +13,12 @@ const publiactionSchema = new mongoose.Schema({
         required: true,
     },
     group: {
-        type: Group,
+        type: mongoose.Schema.Types.ObjectId,
         required: false,
     },
-    photo: {
-        type: String,
-        required: false,
+    publicationDate: {
+        type: Date,
+        require: true,
     },
     category: {
         type: String,
@@ -29,9 +28,10 @@ const publiactionSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    likes: {
-        type: Number,
-        required: true,
+    reactions: {
+        type: String,
+        enum: ['like'],
+        required: false,
     },
     createdAt: {
         type: Date,
@@ -41,7 +41,7 @@ const publiactionSchema = new mongoose.Schema({
         {
             user: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
+                ref: "User",
                 required: true,
             },
             comment: {

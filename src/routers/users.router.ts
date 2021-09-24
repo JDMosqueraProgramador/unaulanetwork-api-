@@ -22,6 +22,7 @@ const Router = express.Router();
 
 Router.get("/:user", tokenValidation , getOneUser);
 
+
 Router.post(
     "/",
     [

@@ -3,6 +3,7 @@ import Competence from './competences.models';
 
 
 const UserSchema = new mongoose.Schema({
+   
     username: {
         type: String,
         required: [true, "El username es obligatorio"],
@@ -22,9 +23,9 @@ const UserSchema = new mongoose.Schema({
         default: true,
     },
     work: {
+
         type: String,
         name: String,
-        required: true,
         defauld: "Unemployed",
     },
     description: {

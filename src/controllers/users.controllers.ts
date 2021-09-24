@@ -30,25 +30,23 @@ export const setUsers = async (req: Request, res: Response) => {
         const profilePicture = secure_url;
 
         data.profilePicture = profilePicture;
-
-        const user = new User(data);
-
-        await user.save();
-
-        return res.status(200).json({ user });
-
-
-    } else {
-
-
-        const user = new User(data);
-
-        await user.save();
-
-        return res.status(200).json({ user });
     }
+    else {
+        
+        data.profilePicture = process.env.profilePictureDeafult;
+    }
+    
+    const user = new User(data);
 
-};
+    await user.save((err : any, user : any) => {
+        
+        if (err) res.status(500).send({ message: `Error al guardar el usuario ${err}` });
+
+        res.status(200).json(user);
+
+    });
+
+}
 
 export const getOneUser = async (req: Request, res: Response) => {
 
