@@ -38,7 +38,7 @@ const userSchemaValidator = checkSchema({
         description:{
             custom:{
                 options: async(value:any) =>{
-                    console.log(value.length)
+                    
                      if(value.length < 12){
                        throw new Error('Descripción demasiado corta')
                      }

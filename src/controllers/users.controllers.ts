@@ -21,6 +21,12 @@ export const setUsers = async (req: Request, res: Response) => {
 
     data.username = username;
 
+
+
+    let filterAchivement = data.achievement.filter( (a:any) => a != '')
+
+    data.achievement = filterAchivement;
+
     if (req.file) {
 
         const { path } = req.file;

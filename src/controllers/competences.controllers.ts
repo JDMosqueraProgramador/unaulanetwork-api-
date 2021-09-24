@@ -50,6 +50,18 @@ export const getCompetencesByArea = async(req: Request, res: Response) =>{
 export const createOneCompetence = async (req: Request, res: Response) => {
 
     const {name, description, area} = req.body;
+    
+    if(name == ""){
+        return res.status(400).json({
+            error: "El nombre de la competencia NO debe estar vacío"
+        })
+    }
+
+     if(description == ""){
+        return res.status(400).json({
+            error: "La descripción de la competencia NO debe estar vacía"
+        })
+    }
 
     const competenceDB = await Competence.findOne({name,area});
 
