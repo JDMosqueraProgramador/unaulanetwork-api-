@@ -33,6 +33,7 @@ const publiactionSchema = new mongoose.Schema({
         enum: ['like'],
         required: false,
     },
+    //Eliminar este 
     createdAt: {
         type: Date,
         required: true,

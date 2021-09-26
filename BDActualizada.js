@@ -57,9 +57,12 @@ groups= {
 
 projects= {
     id : "",
+    owner : user,
     group : group,
     name: "",
-    areas :"",
+    link: "",
+    images:[],
+    areas :[],
     description :"",
     developers : [user]
 }
