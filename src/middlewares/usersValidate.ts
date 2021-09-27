@@ -8,38 +8,49 @@ import { validate } from 'uuid';
 const userSchemaValidator = checkSchema({
 
         username:{
+            
             custom : {
                 options: async(value:any) =>{
 
-                    const user = await User.findOne({"username": value})
+                    try{
+                        const user = await User.findOne({"username": value})
         
-                    if(user!=null){
+                        if(user!=null){
                         //console.log("Acá se verificó que NO se creó")
                         throw new Error('Este username está ocupado');
 
+                        }
+                    }catch{
+                        throw new Error('No has enviado correctamente el nombre de usuario')
                     }
+                    
                 }
             },   
         },
         dayOfBirth :{
             custom:{
                 options: async(value:any)=>{
+                    try{
+                        const birth = value;
+                        const validate = new Date((birth)).getFullYear();
+                        const dateToday = new Date().getFullYear() - validate;
                     
-                     const birth = value;
-                     const validate = new Date((birth)).getFullYear();
-                     const dateToday = new Date().getFullYear() - validate;
-                    
-                     if (dateToday <= 14) {
+                        if (dateToday <= 14) {
 
-                         throw new Error('Fecha inválida');
-                     }
+                            throw new Error('Fecha inválida');
+                        }
+                    } catch{
+                        throw new Error('No has enviado correctamente la fecha de nacimiento')
+                    }
                 }
             }
         },
         description: {
             custom:{
+
+               
                 options: async(value:any) =>{
-                    
+                    try{ 
                      if(value.length < 12){
                        throw new Error('Descripción demasiado corta')
                      }
@@ -47,7 +58,12 @@ const userSchemaValidator = checkSchema({
 
                          throw new Error('Descripción demasiado larga ')
                      }
+                    } catch{
+                    throw new Error('No has enviado correctamente la descripción')
                 }
+            }
+               
+                
 
             }
         }

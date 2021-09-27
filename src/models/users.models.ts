@@ -62,13 +62,19 @@ const UserSchema = new mongoose.Schema({
             require: false
         },
     ],
-
-    friends: [
+    following: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             require: false
         },
+    ],
+
+    followers : [{
+         type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            require: false
+        }
     ],
 
     proyects : [{
