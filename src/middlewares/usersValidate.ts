@@ -6,6 +6,7 @@ import { validate } from 'uuid';
 
 
 const userSchemaValidator = checkSchema({
+
         username:{
             custom : {
                 options: async(value:any) =>{
@@ -35,7 +36,7 @@ const userSchemaValidator = checkSchema({
                 }
             }
         },
-        description:{
+        description: {
             custom:{
                 options: async(value:any) =>{
                     
@@ -50,11 +51,7 @@ const userSchemaValidator = checkSchema({
 
             }
         }
-        // email:{
-        //     custom:{
-                
-        //     }
-        // }
+      
     }
 
 )

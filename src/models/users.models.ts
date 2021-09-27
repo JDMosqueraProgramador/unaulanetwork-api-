@@ -30,10 +30,12 @@ const UserSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true,
-        default: "I am a student ",
+        required: [true, "La descripcion es obligatoria"],
+        default: "I am a student",
     },
+
     achievement: [
+
         {
             type: Object,
             require: false,
@@ -51,6 +53,7 @@ const UserSchema = new mongoose.Schema({
                 required: true,
             },
         },
+        
     ],
     competences: [
         {
@@ -67,6 +70,7 @@ const UserSchema = new mongoose.Schema({
             require: false
         },
     ],
+
     proyects : [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Proyect",
