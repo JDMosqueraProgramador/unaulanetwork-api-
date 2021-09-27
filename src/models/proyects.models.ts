@@ -16,6 +16,10 @@ const proyectSchema = new mongoose.Schema({
         type:String,
         required: true
     },
+    link:{
+        type:String,
+        required:false
+    },
     areas: [{
         type:String,
         enum : ['informatica','derecho','contaduria','industrial','idiomas','educacion',''],

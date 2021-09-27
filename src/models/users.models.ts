@@ -20,13 +20,13 @@ const UserSchema = new mongoose.Schema({
     check: {
         type: Boolean,
         required: true,
-        default: true,
+        default: false,
     },
     work: {
 
         type: String,
         name: String,
-        defauld: "Unemployed",
+        default: "Unemployed",
     },
     description: {
         type: String,
@@ -60,7 +60,7 @@ const UserSchema = new mongoose.Schema({
         },
     ],
 
-    following: [
+    pendingRequest: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
@@ -68,14 +68,18 @@ const UserSchema = new mongoose.Schema({
         },
     ],
 
-    followers: [
-        
+    friends: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             require: false
         },
     ],
+    proyects : [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Proyect",
+            require: false
+    }]
 
     
 });
