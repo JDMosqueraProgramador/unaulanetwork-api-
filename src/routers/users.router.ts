@@ -29,7 +29,6 @@ Router.post(
         userSchemaValidator,
         upload.single("profilePicture"),
         check("username").custom(validationUser),
-        check("dayOfBirth").custom(validateDate),
         validateInfo
         
     ],

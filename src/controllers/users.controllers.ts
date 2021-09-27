@@ -6,12 +6,13 @@ import { checkEmail } from "../helpers/validateUser";
 import Competence from "../models/competences.models";
 
 
-
 require("dotenv").config();
 
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config(process.env.CLOUDINARY_URL);
+
+
 
 export const setUsers = async (req: Request, res: Response) => {
 
@@ -39,6 +40,7 @@ export const setUsers = async (req: Request, res: Response) => {
 
 
 
+    
     if (req.file) {
 
         const { path } = req.file;
@@ -108,7 +110,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
         const { path } = req.file;
 
-        const { secure_url } = await cloudinary.uploader.upload(path);
+        const { secure_url } = await cloudinary.uploader.upload(path, { folder: "profile" });
 
         const profilePicture = secure_url;
 
@@ -164,6 +166,7 @@ export const follow =  async(req: Request, res: Response) => {
 }
 
 export const followers = async(req:Request, res: Response) =>{
+    
     const users = await User.find();
     console.log(users)
 }
