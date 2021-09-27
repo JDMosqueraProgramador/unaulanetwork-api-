@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
-        default: "I am a student ",
+        default: "I am a student",
     },
     achievement: [
         {
