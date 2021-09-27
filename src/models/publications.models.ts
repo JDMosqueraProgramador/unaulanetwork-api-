@@ -33,11 +33,6 @@ const publiactionSchema = new mongoose.Schema({
         enum: ['like'],
         required: false,
     },
-    //Eliminar este 
-    createdAt: {
-        type: Date,
-        required: true,
-    },
     comments: [
         {
             user: {
@@ -55,6 +50,10 @@ const publiactionSchema = new mongoose.Schema({
             },
         },
     ],
+    hastags:[{
+        type: String,
+        required: false,
+    }]
 });
 
 const Publication = mongoose.model("Publication", publiactionSchema);
