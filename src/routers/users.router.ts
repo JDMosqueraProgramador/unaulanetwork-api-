@@ -47,12 +47,10 @@ Router.put(
         upload.single("profilePicture"),
         check("username").custom(existUserById),
         validateInfo,
-        
-        
+
     ],
         updateUser
-    
-    
+
 );
 
 

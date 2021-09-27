@@ -155,6 +155,4 @@ export const follow =  async(req: Request, res: Response) => {
 export const followers = async(req:Request, res: Response) =>{
     const users = await User.find();
     console.log(users)
-
-
 }
