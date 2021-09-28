@@ -21,10 +21,28 @@ export const setUsers = async (req: Request, res: Response) => {
 
     data.username = username;
 
+
+
+    if(!data.achievement == null || !data.achievement == undefined){
+        let filterAchivement = data.achievement.filter( (a:any) => a != '')
+
+        data.achievement = filterAchivement;
+    }
+    
+
+    if(data.description == undefined){
+        //Enviar un mensaje al usuario POR FAVOOOOOOOOOOR
+        //res.send({advertencia : "No has enviado correctamente la descripción pero se te ha asignado una por defecto"})
+    }
+    // if(!data.has("description")){
+    //     data.description = "I am a student";
+    // }
+
+
+
     if (req.file) {
 
         const { path } = req.file;
-
         const { secure_url } = await cloudinary.uploader.upload(path, { folder: "profile" });
 
         const profilePicture = secure_url;

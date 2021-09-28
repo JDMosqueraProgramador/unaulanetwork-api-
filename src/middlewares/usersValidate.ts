@@ -1,50 +1,47 @@
-import mongoose from 'mongoose';
-const {body, checkSchema, validationResult} = require('express-validator');
-import User from '../models/users.models';
-import { Request, Response} from 'express';
-import { validate } from 'uuid';
-
+import mongoose from "mongoose";
+const { body, checkSchema, validationResult } = require("express-validator");
+import User from "../models/users.models";
+import { Request, Response } from "express";
+import { validate } from "uuid";
 
 const userSchemaValidator = checkSchema({
+    username: {
+        custom: {
+            options: async (value: any) => {
+                try {
+                    const user = await User.findOne({ username: value });
 
-        username:{
-            
-            custom : {
-                options: async(value:any) =>{
-
-                    try{
-                        const user = await User.findOne({"username": value})
-        
-                        if(user!=null){
+                    if (user != null) {
                         //console.log("Acá se verificó que NO se creó")
-                        throw new Error('Este username está ocupado');
-
-                        }
-                    }catch{
-                        throw new Error('No has enviado correctamente el nombre de usuario')
+                        throw new Error("Este username está ocupado");
                     }
-                    
+                } catch {
+                    throw new Error(
+                        "No has enviado correctamente el nombre de usuario"
+                    );
                 }
-            },   
+            },
         },
-        dayOfBirth :{
-            custom:{
-                options: async(value:any)=>{
-                    try{
-                        const birth = value;
-                        const validate = new Date((birth)).getFullYear();
-                        const dateToday = new Date().getFullYear() - validate;
-                    
-                        if (dateToday <= 14) {
+    },
+    dayOfBirth: {
+        custom: {
+            options: async (value: any) => {
+                try {
+                    const birth = value;
+                    const validate = new Date(birth).getFullYear();
+                    const dateToday = new Date().getFullYear() - validate;
 
-                            throw new Error('Fecha inválida');
-                        }
-                    } catch{
-                        throw new Error('No has enviado correctamente la fecha de nacimiento')
+                    if (dateToday <= 14) {
+                        throw new Error("Fecha inválida");
                     }
+                } catch {
+                    throw new Error(
+                        "No has enviado correctamente la fecha de nacimiento"
+                    );
                 }
-            }
+            },
         },
+
         description: {
             
             custom: {
@@ -58,7 +55,7 @@ const userSchemaValidator = checkSchema({
                             throw new Error('Descripción demasiado corta')
                         
                         }
-                        else if(value.length > 100) {
+                        else if (value.length > 100) {
 
                             throw new Error('Descripción demasiado larga ')
                         }
@@ -67,18 +64,43 @@ const userSchemaValidator = checkSchema({
                         
                     } catch {
                         
-                    throw new Error('No has enviado correctamente la descripción')
-                }
-            }
-               
-                
-
+                        throw new Error('No has enviado correctamente la descripción')
+                        
+                    }
+                },
+                description: {
+                    custom: {
+                        options: async (value: any) => {
+                            try {
+                                if (value.length < 12) {
+                                    throw new Error("Descripción demasiado corta");
+                                } else if (value.length > 100) {
+                                    throw new Error("Descripción demasiado larga");
+                                }
+                            } catch {
+                                throw new Error(
+                                    "No has enviado correctamente la descripción"
+                                );
+                            }
+                        },
+                    },
+                },
+                following: {
+                    custom: {
+                        options: async (value: any) => {
+                            try {
+                                if (value.length < 1) {
+                                    throw new Error("Debes seguir almenos una persona.");
+                                }
+                            } catch {
+                                throw new Error("Se debe seguir almenos a una persona.");
+                            }
+                        },
+                    },
+                },
             }
         }
-      
     }
-
-)
-
+});
 
 export default userSchemaValidator;
