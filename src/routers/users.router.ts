@@ -48,7 +48,7 @@ Router.put(
 
 Router.put("/:username/unfollow/:userUnFollow", unfollow);
 
-Router.put("/:username/follow", follow);
+Router.post("/:username/follow/:userFollow", follow);
 
 
 export default Router;

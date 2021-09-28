@@ -3,8 +3,7 @@ import User from "../models/users.models";
 import Competences from "../models/competences.models";
 import { uploadImage } from '../helpers/uploadFile';
 import { checkEmail } from "../helpers/validateUser";
-import Competence from "../models/competences.models";
-
+import Follower from '../models/followers.models';
 
 require("dotenv").config();
 
@@ -121,29 +120,53 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const follow =  async(req: Request, res: Response) => {
     
-    const username = String(req.params.username);
-    const followerUser = await User.findOne({username:username})
+    const { username, userFollow } = req.params;
+
+    const user = await User.findOne({ username });
+
+    const data = {
+
+        following : userFollow  ,
+        follower: user._id
     
-    const {following} = req.body;
+    };
+
+    const follow = new Follower(data);
+
+    await follow.save((err: any, user: any) => {
+          
+          if (err)
+              res.status(500).send({
+                  message: `Error al seguir al usuario ${err}`,
+              });
+
+          res.status(200).json({messague:"Se siguio al usuario"});
+    
+    });
+
+    // const username = String(req.params.username);
+
+    // const followerUser = await User.findOne({username:username})
+    
+    // const {following} = req.body;
    
 
-     const user = await User.findOne({username:username},(err: any, user: any) =>{
+    //  const user = await User.findOne({username:username},(err: any, user: any) =>{
 
         
-            following.map((e:any) =>{
-            user.following.push(e)
-            const followed = User.findById(e, (err: any, followed: any) =>{
+    //         following.map((e:any) =>{
+    //         user.following.push(e)
+    //         const followed = User.findById(e, (err: any, followed: any) =>{
                
-                followed.followers.push(followerUser._id)
-                followed.save();
+    //             followed.followers.push(followerUser._id)
+    //             followed.save();
                 
-            })
-        })
-         user.save();
+    //         })
+    //     })
+    //      user.save();
 
-         return res.status(200).json(user)
-    })
-
+    //      return res.status(200).json(user)
+    // })
 
 }
 
@@ -151,32 +174,25 @@ export const follow =  async(req: Request, res: Response) => {
 export const unfollow = async (req: Request, res: Response) => {
     
 
-    console.log("------------------------");
-
-
     const { username, userUnFollow } = req.params;
     
-
-    console.log(username, userUnFollow);
-
-    const user = await User.updateOne(
-        
-        { username },
-        { $pull: { following: userUnFollow } }
     
-    );
 
-    console.log(user);
+    // const user = await User.findOneAndUpdate(
 
-    const userUnfollow =await User.updateOne(
-
-        { _id: userUnFollow },
-        { $pull: { followers: user._id } }
-
-    );
-
+    //     { username },
+    //     { $pull: { following: userUnFollow } }
     
-    return res.status(200).json({ user, userUnfollow });
+    // );
+
+    // const userUnfollow =await User.updateOne(
+
+    //     { _id: userUnFollow },
+    //     { $pull: { followers: user._id } }
+
+    // );
+    
+    return res.status(200).json({message:"Ha dejado de seguir al usuario"});
 
 }
 
