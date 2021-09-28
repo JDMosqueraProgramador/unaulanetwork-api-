@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Competence from './competences.models';
 
 
 const UserSchema = new mongoose.Schema({
@@ -29,6 +28,7 @@ const UserSchema = new mongoose.Schema({
         default: "Unemployed",
     },
     description: {
+
         type: String,
         required: [true, "La descripcion es obligatoria"],
         default: "I am a student",
@@ -38,7 +38,6 @@ const UserSchema = new mongoose.Schema({
 
         {
             type: Object,
-            require: false,
 
             name: {
                 type: String,
@@ -58,29 +57,25 @@ const UserSchema = new mongoose.Schema({
     competences: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Competences",
-            require: false
+            ref: "Competences"
         },
     ],
     following: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            require: false
+            ref: "User"
         },
     ],
 
     followers : [{
          type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            require: false
+            ref: "User"
         }
     ],
 
     proyects : [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Proyect",
-            require: false
+            ref: "Proyect"
     }]
 
     

@@ -22,13 +22,6 @@ export const setUsers = async (req: Request, res: Response) => {
 
     data.username = username;
 
-
-    //let filterAchivement = data.achievement.filter( (a:any) => a != '')
-
-
-    //data.achievement = filterAchivement;
-
-    
     if (req.file) {
 
         const { path } = req.file;
@@ -154,8 +147,41 @@ export const follow =  async(req: Request, res: Response) => {
 
 }
 
-export const followers = async(req:Request, res: Response) =>{
+
+export const unfollow = async (req: Request, res: Response) => {
     
-    const users = await User.find();
-    console.log(users)
+
+    console.log("------------------------");
+
+
+    const { username, userUnFollow } = req.params;
+    
+
+    console.log(username, userUnFollow);
+
+    const user = await User.updateOne(
+        
+        { username },
+        { $pull: { following: userUnFollow } }
+    
+    );
+
+    console.log(user);
+
+    const userUnfollow =await User.updateOne(
+
+        { _id: userUnFollow },
+        { $pull: { followers: user._id } }
+
+    );
+
+    
+    return res.status(200).json({ user, userUnfollow });
+
 }
+
+export const followers = async (req: Request, res: Response) => {
+    const users = await User.find();
+
+    console.log(users);
+};

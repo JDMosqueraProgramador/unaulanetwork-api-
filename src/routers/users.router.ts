@@ -8,7 +8,7 @@ import {
     setUsers,
     updateUser,
     follow,
-    followers
+    unfollow
 } from "../controllers/users.controllers";
 import { validationUser, existUserById, validateDate } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
@@ -22,7 +22,6 @@ const Router = express.Router();
 
 Router.get("/:user", tokenValidation , getOneUser);
 
-
 Router.post(
     "/",
     [
@@ -34,11 +33,6 @@ Router.post(
     ],
     setUsers
 );
-
-Router.put("/:username/follow",
-    follow
-);
-
 
 Router.put(
     "/:username",
@@ -52,6 +46,9 @@ Router.put(
 
 );
 
+Router.put("/:username/unfollow/:userUnFollow", unfollow);
+
+Router.put("/:username/follow", follow);
 
 
 export default Router;
