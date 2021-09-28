@@ -45,17 +45,16 @@ const userSchemaValidator = checkSchema({
     description: {
         custom: {
             options: async (value: any) => {
-                try {
+  
+
+                if (value != null || value != undefined) {
                     if (value.length < 12) {
                         throw new Error("Descripción demasiado corta");
                     } else if (value.length > 100) {
                         throw new Error("Descripción demasiado larga");
                     }
-                } catch {
-                    throw new Error(
-                        "No has enviado correctamente la descripción"
-                    );
                 }
+
             },
         },
     },
