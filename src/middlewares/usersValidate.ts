@@ -41,66 +41,33 @@ const userSchemaValidator = checkSchema({
                 }
             },
         },
-
-        description: {
-            
-            custom: {
-                
-                options: async (value: any) => {
-                    
-                    try {
-                        
-                        if (value.length < 12) {
-                            
-                            throw new Error('Descripción demasiado corta')
-                        
-                        }
-                        else if (value.length > 100) {
-
-                            throw new Error('Descripción demasiado larga ')
-                        }
-
-                        return;
-                        
-                    } catch {
-                        
-                        throw new Error('No has enviado correctamente la descripción')
-                        
+    },
+    description: {
+        custom: {
+            options: async (value: any) => {
+                if (value != null || value != undefined) {
+                    if (value.length < 12) {
+                        throw new Error("Descripción demasiado corta");
+                    } else if (value.length > 100) {
+                        throw new Error("Descripción demasiado larga");
                     }
-                },
-                description: {
-                    custom: {
-                        options: async (value: any) => {
-                            try {
-                                if (value.length < 12) {
-                                    throw new Error("Descripción demasiado corta");
-                                } else if (value.length > 100) {
-                                    throw new Error("Descripción demasiado larga");
-                                }
-                            } catch {
-                                throw new Error(
-                                    "No has enviado correctamente la descripción"
-                                );
-                            }
-                        },
-                    },
-                },
-                following: {
-                    custom: {
-                        options: async (value: any) => {
-                            try {
-                                if (value.length < 1) {
-                                    throw new Error("Debes seguir almenos una persona.");
-                                }
-                            } catch {
-                                throw new Error("Se debe seguir almenos a una persona.");
-                            }
-                        },
-                    },
-                },
-            }
-        }
-    }
+                }
+            },
+        },
+    },
+    following: {
+        custom: {
+            options: async (value: any) => {
+                try {
+                    if (value.length < 1) {
+                        throw new Error("Debes seguir almenos una persona.");
+                    }
+                } catch {
+                    throw new Error("Se debe seguir almenos a una persona.");
+                }
+            },
+        },
+    },
 });
 
 export default userSchemaValidator;
