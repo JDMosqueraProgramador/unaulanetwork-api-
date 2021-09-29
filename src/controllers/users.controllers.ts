@@ -138,14 +138,13 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const follow =  async(req: Request, res: Response) => {
     
-    const { username, userFollow } = req.params;
+    const { id, userFollow } = req.params;
 
-    const user = await User.findOne({ username });
 
     const data = {
 
         following : userFollow  ,
-        follower: user._id
+        follower: id
     
     };
 
@@ -162,53 +161,15 @@ export const follow =  async(req: Request, res: Response) => {
     
     });
 
-    // const username = String(req.params.username);
-
-    // const followerUser = await User.findOne({username:username})
-    
-    // const {following} = req.body;
-   
-
-    //  const user = await User.findOne({username:username},(err: any, user: any) =>{
-
-        
-    //         following.map((e:any) =>{
-    //         user.following.push(e)
-    //         const followed = User.findById(e, (err: any, followed: any) =>{
-               
-    //             followed.followers.push(followerUser._id)
-    //             followed.save();
-                
-    //         })
-    //     })
-    //      user.save();
-
-    //      return res.status(200).json(user)
-    // })
 
 }
 
 
 export const unfollow = async (req: Request, res: Response) => {
+
+    const { id, userFollow } = req.params;
     
-
-    const { username, userUnFollow } = req.params;
-    
-    
-
-    // const user = await User.findOneAndUpdate(
-
-    //     { username },
-    //     { $pull: { following: userUnFollow } }
-    
-    // );
-
-    // const userUnfollow =await User.updateOne(
-
-    //     { _id: userUnFollow },
-    //     { $pull: { followers: user._id } }
-
-    // );
+    await Follower.deleteOne({ following: userFollow, follower: id });
     
     return res.status(200).json({message:"Ha dejado de seguir al usuario"});
 

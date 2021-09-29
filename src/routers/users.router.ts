@@ -42,13 +42,12 @@ Router.put(
         validateInfo,
 
     ],
-        updateUser
-
+    updateUser
 );
 
-Router.put("/:username/unfollow/:userUnFollow", unfollow);
+Router.delete("/:id/unfollow/:userUnFollow", unfollow);
 
-Router.post("/:username/follow/:userFollow", follow);
+Router.post("/:id/follow/:userFollow", follow);
 
 
 export default Router;
