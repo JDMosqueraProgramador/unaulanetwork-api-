@@ -4,6 +4,7 @@ import morgan from "morgan";
 
 import userRouter from "./routers/users.router";
 import competencesRouter from "./routers/competences.router";
+import followRouter from "./routers/follow.router";
 
 const app: Application = express();
 
@@ -15,6 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
 app.use("/users", userRouter);
-app.use("/competences",competencesRouter)
+app.use("/competences",competencesRouter);
+
+app.use("/follow", followRouter);
+
 
 export default app;
