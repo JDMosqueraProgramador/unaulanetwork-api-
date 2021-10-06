@@ -23,25 +23,25 @@ const userSchemaValidator = checkSchema({
             },
         },
     },
-    dayOfBirth: {
-        custom: {
-            options: async (value: any) => {
-                try {
-                    const birth = value;
-                    const validate = new Date(birth).getFullYear();
-                    const dateToday = new Date().getFullYear() - validate;
+    // dayOfBirth: {
+    //     custom: {
+    //         options: async (value: any) => {
+    //             try {
+    //                 const birth = value;
+    //                 const validate = new Date(birth).getFullYear();
+    //                 const dateToday = new Date().getFullYear() - validate;
 
-                    if (dateToday <= 14) {
-                        throw new Error("Fecha inválida");
-                    }
-                } catch {
-                    throw new Error(
-                        "No has enviado correctamente la fecha de nacimiento"
-                    );
-                }
-            },
-        },
-    },
+    //                 if (dateToday <= 14) {
+    //                     throw new Error("Fecha inválida");
+    //                 }
+    //             } catch {
+    //                 throw new Error(
+    //                     "No has enviado correctamente la fecha de nacimiento"
+    //                 );
+    //             }
+    //         },
+    //     },
+    // },
     description: {
         custom: {
             options: async (value: any) => {
