@@ -12,10 +12,11 @@ import {
 import { validationUser, existUserById, validateDate } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
 import { upload } from "../helpers/multer";
-import userSchemaValidator from "../middlewares/usersValidate"
+import userSchemaValidator from "../middlewares/usersValidate";
 
-import { tokenValidation } from  "../middlewares/validateToken"
+import { tokenValidation } from  "../middlewares/validateToken";
 
+import { follow, unfollow} from "../controllers/follow.controllers";
 
 const Router = express.Router();
 

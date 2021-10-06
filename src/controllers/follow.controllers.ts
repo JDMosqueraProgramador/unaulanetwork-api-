@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
+
 import User from "../models/users.models";
+
 import Follower from '../models/followers.models';
 
 
