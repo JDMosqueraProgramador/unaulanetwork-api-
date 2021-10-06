@@ -55,19 +55,19 @@ const userSchemaValidator = checkSchema({
             },
         },
     },
-    following: {
-        custom: {
-            options: async (value: any) => {
-                try {
-                    if (value.length < 1) {
-                        throw new Error("Debes seguir almenos una persona.");
-                    }
-                } catch {
-                    throw new Error("Se debe seguir almenos a una persona.");
-                }
-            },
-        },
-    },
+    // following: {
+    //     custom: {
+    //         options: async (value: any) => {
+    //             try {
+    //                 if (value.length < 1) {
+    //                     throw new Error("Debes seguir almenos una persona.");
+    //                 }
+    //             } catch {
+    //                 throw new Error("Se debe seguir almenos a una persona.");
+    //             }
+    //         },
+    //     },
+    // },
 });
 
 export default userSchemaValidator;
