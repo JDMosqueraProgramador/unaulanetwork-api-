@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import User from "../models/users.models";
+import User from '../models/users.models';
 import Competences from "../models/competences.models";
 import { uploadImage } from '../helpers/uploadFile';
 import { checkEmail } from "../helpers/validateUser";
@@ -72,10 +72,9 @@ const userParam = req.params.user;
 
     await User.findOne({ username: userParam }, (err: any, user: any) => {
 
+           Competences.populate(user, { path: "competences", select: {'name':1, 'description':1} }, (err, user) => {
 
-            Competences.populate(user, { path: "competences", select: ' name' }, (err, user) => {
-
-
+            console.log(user)
             if (err) return res.status(500).json({ error: err });
 
             if (user) {
