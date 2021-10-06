@@ -6,9 +6,8 @@ import { check } from "express-validator";
 import {
     getOneUser,
     setUsers,
-    updateUser,
-    follow,
-    unfollow
+    updateUser
+
 } from "../controllers/users.controllers";
 import { validationUser, existUserById, validateDate } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
@@ -45,9 +44,6 @@ Router.put(
     updateUser
 );
 
-Router.delete("/:id/unfollow/:userUnFollow", unfollow);
-
-Router.post("/:id/follow/:userFollow", follow);
 
 
 export default Router;

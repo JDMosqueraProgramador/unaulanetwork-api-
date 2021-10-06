@@ -1,16 +1,15 @@
+import { DataUpdateUser } from './../interfaces/interface';
 import { Request, Response } from "express";
 import User from "../models/users.models";
 import Competences from "../models/competences.models";
 import { uploadImage } from '../helpers/uploadFile';
 import { checkEmail } from "../helpers/validateUser";
-import Follower from '../models/followers.models';
 
 require("dotenv").config();
 
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config(process.env.CLOUDINARY_URL);
-
 
 
 export const setUsers = async (req: Request, res: Response) => {
@@ -22,11 +21,12 @@ export const setUsers = async (req: Request, res: Response) => {
     data.username = username;
 
 
-
-    if(!data.achievement == null || !data.achievement == undefined){
+    if (!data.achievement == null || !data.achievement == undefined) {
+        
         let filterAchivement = data.achievement.filter( (a:any) => a != '')
 
         data.achievement = filterAchivement;
+        
     }
     
 
@@ -37,8 +37,6 @@ export const setUsers = async (req: Request, res: Response) => {
     // if(!data.has("description")){
     //     data.description = "I am a student";
     // }
-
-
 
     if (req.file) {
 
@@ -95,13 +93,19 @@ const userParam = req.params.user;
 
 
 export const updateUser = async (req: Request, res: Response) => {
+    
+
+    const { username } = req.params;
+
+    const { work, description } = req.body;
+    
+    let data: DataUpdateUser = {};
 
 
-    let data;
-
-    const { username, model } = req.params;
-
-    const { ...rest } = req.body;
+    if (work !== undefined) data.work = work;
+    
+    if (description !== undefined) data.description = description;
+    
 
     if (req.file) {
 
@@ -113,14 +117,11 @@ export const updateUser = async (req: Request, res: Response) => {
 
         const profilePicture = secure_url;
 
-        data = {
-            profilePicture,
-            rest,
-        }
-    } else {
-
-        data = rest;
+        data.profilePicture = profilePicture;
+        
     }
+
+    console.log(data);
 
 
     await User.findOneAndUpdate({ username }, data, { new: true }, (err: any, user: any) => {
@@ -136,47 +137,3 @@ export const updateUser = async (req: Request, res: Response) => {
 }
 
 
-export const follow =  async(req: Request, res: Response) => {
-    
-    const { id, userFollow } = req.params;
-
-
-    const data = {
-
-        following : userFollow  ,
-        follower: id
-    
-    };
-
-    const follow = new Follower(data);
-
-    await follow.save((err: any, user: any) => {
-          
-          if (err)
-              res.status(500).send({
-                  message: `Error al seguir al usuario ${err}`,
-              });
-
-          res.status(200).json({messague:"Se siguio al usuario"});
-    
-    });
-
-
-}
-
-
-export const unfollow = async (req: Request, res: Response) => {
-
-    const { id, userFollow } = req.params;
-    
-    await Follower.deleteOne({ following: userFollow, follower: id });
-    
-    return res.status(200).json({message:"Ha dejado de seguir al usuario"});
-
-}
-
-export const followers = async (req: Request, res: Response) => {
-    const users = await User.find();
-
-    console.log(users);
-};

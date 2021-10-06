@@ -9,6 +9,7 @@ mongoose.connect(URI, {
 })
 
 const mongooseConnect = mongoose.connection;
+
 mongooseConnect.once('open', () => {
     console.log('datebase connect')
 });
