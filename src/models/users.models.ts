@@ -8,10 +8,6 @@ const UserSchema = new mongoose.Schema({
         required: [true, "El username es obligatorio"],
         unique: true
     },
-    dayOfBirth: {
-        type: Date,
-        required: [true, "La fecha de nacimiento es obligatoria"],
-    },
     profilePicture: {
         type: String,
         required: false,
