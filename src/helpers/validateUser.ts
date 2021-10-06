@@ -52,16 +52,16 @@ export const existUserById = async (username:any) => {
 }
 
 
-export const validateDate =async  (dayOfBirth: any) => {
+// export const validateDate =async  (dayOfBirth: any) => {
 
-    const birth = dayOfBirth;
-    const validate = new Date((birth)).getFullYear();
-    const dateToday = new Date().getFullYear() - validate;
+//     const birth = dayOfBirth;
+//     const validate = new Date((birth)).getFullYear();
+//     const dateToday = new Date().getFullYear() - validate;
 
-    if(dateToday <= 14 ){
+//     if(dateToday <= 14 ){
         
-       throw new Error ('Fecha invalida');
+//        throw new Error ('Fecha invalida');
 
-    }
+//     }
     
-}
+// }
