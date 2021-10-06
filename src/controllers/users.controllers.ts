@@ -30,10 +30,10 @@ export const setUsers = async (req: Request, res: Response) => {
     }
     
 
-    if(data.description == undefined){
-        //Enviar un mensaje al usuario POR FAVOOOOOOOOOOR
-        //res.send({advertencia : "No has enviado correctamente la descripción pero se te ha asignado una por defecto"})
-    }
+    // if(data.description == undefined){
+    //     //Enviar un mensaje al usuario POR FAVOOOOOOOOOOR
+    //     //res.send({advertencia : "No has enviado correctamente la descripción pero se te ha asignado una por defecto"})
+    // }
     // if(!data.has("description")){
     //     data.description = "I am a student";
     // }
