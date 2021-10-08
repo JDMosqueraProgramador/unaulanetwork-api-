@@ -8,7 +8,6 @@ export const validationUser = async (username : any) => {
 
     const user = checkEmail(username);
 
-
      const usuario = await User.findOne({ username: user })
         
     
@@ -52,16 +51,21 @@ export const existUserById = async (username:any) => {
 }
 
 
-export const validateDate =async  (dayOfBirth: any) => {
 
-    const birth = dayOfBirth;
-    const validate = new Date((birth)).getFullYear();
-    const dateToday = new Date().getFullYear() - validate;
+export const validateDate = async (dayOfBirth: any) => {
 
-    if(dateToday <= 14 ){
+    // export const validateDate =async  (dayOfBirth: any) => {
+
+
+    //     const birth = dayOfBirth;
+    //     const validate = new Date((birth)).getFullYear();
+    //     const dateToday = new Date().getFullYear() - validate;
+
+    //     if(dateToday <= 14 ){
         
-       throw new Error ('Fecha invalida');
+    //        throw new Error ('Fecha invalida');
 
-    }
+    //     }
     
+    // }
 }
