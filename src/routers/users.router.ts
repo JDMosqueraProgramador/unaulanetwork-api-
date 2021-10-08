@@ -14,7 +14,7 @@ import { validationUser, existUserById, validateDate } from '../helpers/validate
 import { validateInfo } from "../middlewares/validateData";
 import { upload } from "../helpers/multer";
 import userSchemaValidator from "../middlewares/usersValidate"
-
+import {fixArrays} from "../helpers/adaptArray"
 import { tokenValidation } from  "../middlewares/validateToken"
 
 
@@ -25,9 +25,12 @@ Router.get("/:user", tokenValidation , getOneUser);
 Router.post(
     "/",
     [
-        userSchemaValidator,
+        
+       
         upload.single("profilePicture"),
         check("username").custom(validationUser),
+        fixArrays,
+        userSchemaValidator,
         validateInfo
         
     ],

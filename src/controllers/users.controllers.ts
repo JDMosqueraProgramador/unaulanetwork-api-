@@ -15,6 +15,7 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 export const setUsers = async (req: Request, res: Response) => {
 
+    
     const { ...data } = req.body;
     
     const username = checkEmail(data.username);
@@ -24,7 +25,7 @@ export const setUsers = async (req: Request, res: Response) => {
 
 
     if(!data.achievement == null || !data.achievement == undefined){
-        let filterAchivement = data.achievement.filter( (a:any) => a != '')
+        let filterAchivement = data.achievement.filter( (a:any) => a != "")
 
         data.achievement = filterAchivement;
     }
