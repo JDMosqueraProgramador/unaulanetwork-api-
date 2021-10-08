@@ -8,7 +8,6 @@ export const validationUser = async (username : any) => {
 
     const user = checkEmail(username);
 
-
      const usuario = await User.findOne({ username: user })
         
     

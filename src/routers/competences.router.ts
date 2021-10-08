@@ -11,6 +11,7 @@ import {
 const Router = express.Router();
 
 Router.get("/search", getCompetences)
+
 Router.get("/searcharea", getCompetencesByArea);
 
 Router.post('/area', createOneCompetence)

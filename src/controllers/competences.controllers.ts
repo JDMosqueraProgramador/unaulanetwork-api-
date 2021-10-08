@@ -51,7 +51,6 @@ export const createOneCompetence = async (req: Request, res: Response) => {
 
     const {name, description, area} = req.body;
     
-   
 
     const competenceDB = await Competence.findOne({name,area});
 
