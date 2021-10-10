@@ -51,7 +51,6 @@ export const createOneCompetence = async (req: Request, res: Response) => {
 
     const {name, description, area} = req.body;
     
-   
 
     const competenceDB = await Competence.findOne({name,area});
 
@@ -65,6 +64,32 @@ export const createOneCompetence = async (req: Request, res: Response) => {
     await competence.save();
     return res.status(200).json({ competence });
 }
+
+
+export const deleteOneCompetence = async (req: Request, res: Response) => {
+    
+
+    const { competenceName } = req.params;
+
+    await Competence.remove({ name : competenceName }, (err: any,) => {
+        
+        if (err) return res.status(500).json({ error: err });
+
+        return res.status(200).json({message:"Competencia eliminada correctamente"})
+
+    });
+
+
+}
+
+export const updateOneCompetence = async (req: Request, res: Response) =>{
+    
+}
+
+
+
+
+
 
 
 //Posible reutilizacion en otro lugar

@@ -1,15 +1,11 @@
 import User from "../models/users.models";
-import { Request, Response} from 'express';
-import { isNamedExportBindings } from 'typescript';
-import { setUsers } from '../controllers/users.controllers';
 
 
 export const validationUser = async (username : any) => {
 
     const user = checkEmail(username);
 
-
-     const usuario = await User.findOne({ username: user })
+    const usuario = await User.findOne({ username: user })
         
     
     if (usuario) {
@@ -50,4 +46,27 @@ export const existUserById = async (username:any) => {
     }
 
 }
+
+
+
+
+
+
+// export const validateDate = async (dayOfBirth: any) => {
+
+    // export const validateDate =async  (dayOfBirth: any) => {
+
+
+    //     const birth = dayOfBirth;
+    //     const validate = new Date((birth)).getFullYear();
+    //     const dateToday = new Date().getFullYear() - validate;
+
+    //     if(dateToday <= 14 ){
+        
+    //        throw new Error ('Fecha invalida');
+
+    //     }
+    
+    // }
+// }
 
