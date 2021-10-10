@@ -9,15 +9,13 @@ import {
     updateUser
 
 } from "../controllers/users.controllers";
-import { validationUser, existUserById, validateDate } from '../helpers/validateUser';
+import { validationUser, existUserById} from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
 import { upload } from "../helpers/multer";
 
 import userSchemaValidator from "../middlewares/usersValidate"
 import {fixArrays} from "../helpers/adaptArray"
 import { tokenValidation } from  "../middlewares/validateToken"
-
-import { follow, unfollow} from "../controllers/follow.controllers";
 
 const Router = express.Router();
 
@@ -47,7 +45,5 @@ Router.put(
     ],
     updateUser
 );
-
-
 
 export default Router;

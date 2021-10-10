@@ -52,7 +52,7 @@ export const existUserById = async (username:any) => {
 
 
 
-export const validateDate = async (dayOfBirth: any) => {
+// export const validateDate = async (dayOfBirth: any) => {
 
     // export const validateDate =async  (dayOfBirth: any) => {
 
@@ -68,4 +68,5 @@ export const validateDate = async (dayOfBirth: any) => {
     //     }
     
     // }
-}
+// }
+
