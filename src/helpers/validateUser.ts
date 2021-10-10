@@ -1,14 +1,11 @@
 import User from "../models/users.models";
-import { Request, Response} from 'express';
-import { isNamedExportBindings } from 'typescript';
-import { setUsers } from '../controllers/users.controllers';
 
 
 export const validationUser = async (username : any) => {
 
     const user = checkEmail(username);
 
-     const usuario = await User.findOne({ username: user })
+    const usuario = await User.findOne({ username: user })
         
     
     if (usuario) {
@@ -49,6 +46,9 @@ export const existUserById = async (username:any) => {
     }
 
 }
+
+
+
 
 
 
