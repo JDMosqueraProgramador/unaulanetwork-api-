@@ -57,7 +57,7 @@ export const getOneUser = async (req: Request, res: Response) => {
             user,
             { path: "competences", select: { name: 1, description: 1 } },
             (err, user) => {
-                console.log(user);
+                //console.log(user);
                 if (err) return res.status(500).json({ error: err });
 
                 if (user) {
@@ -97,7 +97,7 @@ export const updateUser = async (req: Request, res: Response) => {
         data.profilePicture = profilePicture;
     }
 
-    console.log(data);
+    //console.log(data);
 
     await User.findOneAndUpdate(
         { username },
