@@ -3,4 +3,4 @@
         work?: string;
         description?: string;
         profilePicture?: string;
-    }
+}
