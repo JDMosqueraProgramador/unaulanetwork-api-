@@ -20,11 +20,8 @@ export const checkEmail =  (username: string) => {
     if (username.includes('@')) {
 
         const charToDel: number = username.length - 14;
-
         let userName = username.substr(0, charToDel);
-
         const user = userName;
-
         return user;
     }
 

@@ -6,8 +6,8 @@ import { check } from "express-validator";
 import {
     getOneUser,
     setUsers,
-    updateUser
-
+    updateUser,
+    deleteCompetenceFromProfile,
 } from "../controllers/users.controllers";
 import { validationUser, existUserById} from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
@@ -24,8 +24,6 @@ Router.get("/:user", tokenValidation , getOneUser);
 Router.post(
     "/",
     [
-        
-       
         upload.single("profilePicture"),
         check("username").custom(validationUser),
         fixArrays,
@@ -45,5 +43,7 @@ Router.put(
     ],
     updateUser
 );
+
+Router.put("/compDelete/:username/:competenceId", deleteCompetenceFromProfile);
 
 export default Router;
