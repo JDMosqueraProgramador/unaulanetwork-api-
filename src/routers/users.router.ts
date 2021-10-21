@@ -8,6 +8,7 @@ import {
     setUsers,
     updateUser,
     deleteCompetenceFromProfile,
+    addCompetencesProfile
 } from "../controllers/users.controllers";
 import { validationUser, existUserById} from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
@@ -44,6 +45,7 @@ Router.put(
     updateUser
 );
 
+Router.put("/compAdd/:username", addCompetencesProfile);
 Router.put("/compDelete/:username/:competenceId", deleteCompetenceFromProfile);
 
 export default Router;

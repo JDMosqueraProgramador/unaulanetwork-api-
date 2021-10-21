@@ -17,13 +17,10 @@ export const setUsers = async (req: Request, res: Response) => {
 
     //console.log(req.headers);
 
-  
     const username = checkEmail(data.username);
 
     //console.log(username)
     data.username = username;
-
-  
 
     if (req.file) {
         const { path } = req.file;
@@ -38,7 +35,7 @@ export const setUsers = async (req: Request, res: Response) => {
         data.profilePicture = process.env.profilePictureDeafult;
     }
 
-    console.log(data)
+    console.log(data);
     const user = new User(data);
 
     await user.save((err: any, user: any) => {
@@ -115,38 +112,71 @@ export const updateUser = async (req: Request, res: Response) => {
         }
     );
 };
-export const deleteCompetenceFromProfile = async (req:Request, res:Response) =>{ 
-
-    console.log(req.params)
+export const deleteCompetenceFromProfile = async (
+    req: Request,
+    res: Response
+) => {
+    console.log(req.params);
     let username = req.params.username;
     let competenceId = req.params.competenceId;
 
-    User.findOne({username}, (error:any, user:any) =>{
+    User.findOne({ username }, (error: any, user: any) => {
+        let originalCompetences = user.competences;
+        let updatedCompetences = originalCompetences.filter((comp: any) => {
+            if (comp != competenceId) {
+                return comp;
+            }
+        });
+
+        let data: any = {};
+        data.competences = updatedCompetences;
+
+        if (originalCompetences.length == updatedCompetences.length) {
+            return res
+                .status(400)
+                .json({
+                    error: "No tienes esta competencia o se ha introducido un ID diferente",
+                });
+        }
+
+        User.findOneAndUpdate(
+            { username },
+            data,
+            { new: true, useFindAndModify: false },
+            (err: any, user: any) => {
+                if (err) return res.status(500).json({ error: err });
+
+                if (user) return res.status(200).json(user);
+
+                if (!user) return res.status(400).json({ error: err });
+            }
+        );
+    });
+};
+export const addCompetencesProfile = async (req: Request, res: Response) => {
+    let username = req.params.username;
+    let competenceId = req.body.competenceId;
+
+    
+
+    User.findOne({ username }, (error: any, user: any) => {
         
-         let originalCompetences = user.competences;
-         let updatedCompetences = originalCompetences.filter((comp:any) =>{if(comp!=competenceId){return comp}})
+        let data: any = {};
+        let originalCompetences = user.competences
+        originalCompetences.push(competenceId);
+        data.competences = originalCompetences;
+        console.log(originalCompetences)
+        User.findOneAndUpdate(
+            { username },
+             data,
+             { new: true, useFindAndModify: false },
+             (err: any, user: any) => {
+                 if (err) return res.status(500).json({ error: err });
 
-         let data:any = {}        
-         data.competences = updatedCompetences;
+                 if (user) return res.status(200).json(user);
 
-         if(originalCompetences.length == updatedCompetences.length){
-             return res.status(400).json({ error: "No tienes esta competencia o se ha introducido un ID diferente" });
-         }
-
-         
-        User.findOneAndUpdate({username}, data,  { new: true, useFindAndModify: false}, (err: any, user: any) =>{
-             
-            
-            
-            if (err) return res.status(500).json({ error: err });
-
-
-             if (user) return res.status(200).json(user);
-
-             if (!user) return res.status(400).json({ error: err });
-        })
-        //console.log(originalCompetences)
-        //console.log(updatedCompetences)
-
-    })
-}
+                 if (!user) return res.status(400).json({ error: err });
+             }
+         );
+    });
+};
