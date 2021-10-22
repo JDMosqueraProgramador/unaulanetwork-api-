@@ -14,11 +14,9 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 export const setUsers = async (req: Request, res: Response) => {
     const { ...data } = req.body;
-
     //console.log(req.headers);
 
     const username = checkEmail(data.username);
-
     //console.log(username)
     data.username = username;
 
@@ -41,7 +39,7 @@ export const setUsers = async (req: Request, res: Response) => {
     await user.save((err: any, user: any) => {
         if (err)
             res.status(500).send({
-                message: `Error al guardar el usuario ${err}`,
+                message: `Error al guardar el usuario `,
             });
 
         res.status(200).json(user);
@@ -116,11 +114,11 @@ export const deleteCompetenceFromProfile = async (
     req: Request,
     res: Response
 ) => {
-    console.log(req.params);
+    
     let username = req.params.username;
     let competenceId = req.body.competenceId;
 
-    User.findOne({ username }, (error: any, user: any) => {
+   await User.findOne({ username }, (error: any, user: any) => {
         let originalCompetences = user.competences;
         let updatedCompetences = originalCompetences.filter((comp: any) => {
             if (comp != competenceId) {
@@ -139,7 +137,41 @@ export const deleteCompetenceFromProfile = async (
                 });
         }
 
-        User.findOneAndUpdate(
+       User.findOneAndUpdate(
+          { username },
+          data,
+          { new: true, useFindAndModify: false },
+          (err: any, user: any) => {
+              if (err) return res.status(500).json({ error: err });
+
+              if (user) return res.status(200).json(user);
+
+              if (!user) return res.status(400).json({ error: err });
+          }
+      );
+    });
+};
+export const addCompetencesProfile = async (req: Request, res: Response) => {
+    
+    let username = req.params.username;
+    let competenceId = req.body.competenceId;
+
+    
+    await User.findOne({ username }, (error: any, user: any) => {
+        let data: any = {};
+        let originalCompetences = user.competences;
+
+        if (originalCompetences.includes(competenceId)) {
+            return res.status(400).json({
+                error: "Ya tienes esta competencia: " + competenceId,
+            });
+        }
+
+        originalCompetences.push(competenceId);
+        data.competences = originalCompetences;
+        console.log(originalCompetences);
+
+         User.findOneAndUpdate(
             { username },
             data,
             { new: true, useFindAndModify: false },
@@ -151,42 +183,5 @@ export const deleteCompetenceFromProfile = async (
                 if (!user) return res.status(400).json({ error: err });
             }
         );
-    });
-};
-export const addCompetencesProfile = async (req: Request, res: Response) => {
-    let username = req.params.username;
-    let competenceId = req.body.competenceId;
-
-    
-
-    User.findOne({ username }, (error: any, user: any) => {
-        
-        let data: any = {};
-        let originalCompetences = user.competences
-        
-        if(originalCompetences.includes(competenceId)){
-            return res.status(400).json({
-                error: "Ya tienes esta competencia",
-            });
-        }
-        
-        originalCompetences.push(competenceId);
-        data.competences = originalCompetences;
-        console.log(originalCompetences)
-
-        
-
-        User.findOneAndUpdate(
-            { username },
-             data,
-             { new: true, useFindAndModify: false },
-             (err: any, user: any) => {
-                 if (err) return res.status(500).json({ error: err });
-
-                 if (user) return res.status(200).json(user);
-
-                 if (!user) return res.status(400).json({ error: err });
-             }
-         );
     });
 };
