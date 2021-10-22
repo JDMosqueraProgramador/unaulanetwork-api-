@@ -79,8 +79,6 @@ export const myFollowers = async(req:Request, res:Response) => {
  let id = req.params.id;
  let Followers: any = [];
 
-
-
  const result = await Follower.find({ following: id });
 
     if(result.length == 0){
