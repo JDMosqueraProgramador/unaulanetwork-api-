@@ -45,6 +45,6 @@ Router.put(
 );
 
 Router.put("/compAdd/:username", addCompetencesProfile);
-Router.put("/compDelete/:username/:competenceId", deleteCompetenceFromProfile);
+Router.put("/compDelete/:username", deleteCompetenceFromProfile);
 
 export default Router;

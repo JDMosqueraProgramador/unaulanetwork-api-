@@ -118,7 +118,7 @@ export const deleteCompetenceFromProfile = async (
 ) => {
     console.log(req.params);
     let username = req.params.username;
-    let competenceId = req.params.competenceId;
+    let competenceId = req.body.competenceId;
 
     User.findOne({ username }, (error: any, user: any) => {
         let originalCompetences = user.competences;
