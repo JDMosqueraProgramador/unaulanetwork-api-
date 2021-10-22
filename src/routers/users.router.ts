@@ -30,7 +30,6 @@ Router.post(
         fixArrays,
         userSchemaValidator,
         validateInfo
-        
     ],
     setUsers
 );

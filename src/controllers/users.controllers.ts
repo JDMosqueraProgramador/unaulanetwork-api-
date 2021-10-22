@@ -163,9 +163,19 @@ export const addCompetencesProfile = async (req: Request, res: Response) => {
         
         let data: any = {};
         let originalCompetences = user.competences
+        
+        if(originalCompetences.includes(competenceId)){
+            return res.status(400).json({
+                error: "Ya tienes esta competencia",
+            });
+        }
+        
         originalCompetences.push(competenceId);
         data.competences = originalCompetences;
         console.log(originalCompetences)
+
+        
+
         User.findOneAndUpdate(
             { username },
              data,
