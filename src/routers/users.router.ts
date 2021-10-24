@@ -3,12 +3,13 @@ import express from "express";
 
 import { check } from "express-validator";
 
+
 import {
     getOneUser,
     setUsers,
     updateUser,
     deleteCompetenceFromProfile,
-    addCompetencesProfile
+    addCompetencesProfile,
 } from "../controllers/users.controllers";
 import { validationUser, existUserById} from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
@@ -52,5 +53,6 @@ Router.put(
     [upload.none()],
     deleteCompetenceFromProfile
 );
+
 
 export default Router;

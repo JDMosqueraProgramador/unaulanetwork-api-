@@ -6,6 +6,7 @@ import { uploadImage } from "../helpers/uploadFile";
 import { checkEmail } from "../helpers/validateUser";
 import Competence from '../models/competences.models';
 
+
 require("dotenv").config();
 
 const cloudinary = require("cloudinary").v2;
@@ -71,6 +72,7 @@ export const getOneUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
+    
     const { username } = req.params;
 
     const { work, description } = req.body;
@@ -82,6 +84,7 @@ export const updateUser = async (req: Request, res: Response) => {
     if (description !== undefined) data.description = description;
 
     if (req.file) {
+        
         uploadImage("users", username);
 
         const { path } = req.file;
@@ -110,11 +113,10 @@ export const updateUser = async (req: Request, res: Response) => {
         }
     );
 };
-export const deleteCompetenceFromProfile = async (
-    req: Request,
-    res: Response
-) => {
-    
+
+
+export const deleteCompetenceFromProfile = async (req: Request, res: Response) => {
+    console.log(req.params);
     let username = req.params.username;
     let competenceId = req.body.competenceId;
 
@@ -170,6 +172,7 @@ export const addCompetencesProfile = async (req: Request, res: Response) => {
         originalCompetences.push(competenceId);
         data.competences = originalCompetences;
         console.log(originalCompetences);
+
 
          User.findOneAndUpdate(
             { username },
