@@ -29,6 +29,8 @@ Router.delete('/delete/:competenceName', [
     ],
     deleteOneCompetence);
 
+
 Router.put('/update/:competenceName',updateOneCompetence)
+
 
 export default Router;

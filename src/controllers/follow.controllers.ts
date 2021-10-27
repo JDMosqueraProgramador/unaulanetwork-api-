@@ -20,16 +20,15 @@ export const follow =  async(req: Request, res: Response) => {
     const follow = new Follower(data);
 
     await follow.save((err: any, user: any) => {
-          
-          if (err)
-              res.status(500).send({
-                  message: `Error al seguir al usuario ${err}`,
-              });
 
-          res.status(200).json({messague:"Se siguio al usuario"});
+        if (err)
+            res.status(500).send({
+                message: `Error al seguir al usuario ${err}`,
+            });
+
+        res.status(200).json({messague:"Se siguio al usuario"});
     
     });
-
 
 }
 

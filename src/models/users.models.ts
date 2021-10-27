@@ -31,24 +31,24 @@ const UserSchema = new mongoose.Schema({
     },
 
     achievement: [
-
         {
             type: Object,
 
             name: {
                 type: String,
-                required: true,
+                unique: true,
+                required: 'Name is required',
             },
             date: {
                 type: Date,
-                required: true,
+                unique: true,
+                required: 'Date is required',
             },
             description: {
                 type: String,
-                required: true,
+                required: 'Description is required',
             },
         },
-        
     ],
     competences: [
         {

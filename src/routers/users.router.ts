@@ -6,10 +6,12 @@ import { check } from "express-validator";
 import {
     getOneUser,
     setUsers,
-    updateUser
+    updateUser,
+    createOneAchievement,
+    deleteOneAchievement
 
 } from "../controllers/users.controllers";
-import { validationUser, existUserById} from '../helpers/validateUser';
+import { validationUser, existUserById } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
 import { upload } from "../helpers/multer";
 
@@ -24,8 +26,6 @@ Router.get("/:user", tokenValidation , getOneUser);
 Router.post(
     "/",
     [
-        
-       
         upload.single("profilePicture"),
         check("username").custom(validationUser),
         fixArrays,
@@ -46,4 +46,15 @@ Router.put(
     updateUser
 );
 
+Router.put("/:username/addAchievement", [
+    check("username").custom(existUserById),
+    validateInfo
+],createOneAchievement);
+
+Router.delete("/:username/deleteAchievement",
+    [check("username").custom(existUserById),
+    validateInfo],
+    deleteOneAchievement);
+
+    
 export default Router;

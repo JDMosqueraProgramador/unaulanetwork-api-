@@ -13,7 +13,7 @@ export const getCompetences = async (req: Request, res: Response) => {
 
     //Se intenta buscar las competencias:
     await Competence.find({$or:[{name: new RegExp(searchCompetences, 'gi')}, {description:new RegExp(searchCompetences, 'gi')}]} , (err: any, competences: any) => {
-       
+    
         //Si resulta error, muestra un códgio 500 y el error
         if (err) return res.status(500).json({ error: err });
 
@@ -34,7 +34,7 @@ export const getCompetencesByArea = async(req: Request, res: Response) =>{
     
     //Se intenta buscar las competencias:
     await Competence.find({$or:[{area:new RegExp(searchCompetences, 'gi')} ]} , (err: any, competences: any) => {
-       
+
         //Si resulta error, muestra un códgio 500 y el error
         if (err) return res.status(500).json({ error: err });
 
@@ -43,7 +43,8 @@ export const getCompetencesByArea = async(req: Request, res: Response) =>{
 
         //Si no se encuentra, lanza un código 404
         return res.status(404).json({ error: "No se encontraron resultados" });
-    }).limit(5); 
+    }).limit(5);
+    
 };
 
 //Método ansícrono para crear una competencia
@@ -79,12 +80,15 @@ export const deleteOneCompetence = async (req: Request, res: Response) => {
 
     });
 
-
 }
 
 export const updateOneCompetence = async (req: Request, res: Response) =>{
     
-}
+
+
+
+
+}   
 
 
 

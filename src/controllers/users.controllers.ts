@@ -4,6 +4,7 @@ import User from "../models/users.models";
 import Competences from "../models/competences.models";
 import { uploadImage } from "../helpers/uploadFile";
 import { checkEmail } from "../helpers/validateUser";
+import { existCompetenceByName } from '../helpers/competenceValidation';
 
 require("dotenv").config();
 
@@ -12,6 +13,7 @@ const cloudinary = require("cloudinary").v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 export const setUsers = async (req: Request, res: Response) => {
+
     const { ...data } = req.body;
 
     const username = checkEmail(data.username);
@@ -19,6 +21,7 @@ export const setUsers = async (req: Request, res: Response) => {
     data.username = username;
 
     if (!data.achievement == null || !data.achievement == undefined) {
+        
         let filterAchivement = data.achievement.filter((a: any) => a != "");
 
         data.achievement = filterAchivement;
@@ -73,17 +76,19 @@ export const getOneUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
+    
     const { username } = req.params;
 
     const { work, description } = req.body;
 
-    let data: DataUpdateUser = {};
+    let data : DataUpdateUser = {};
 
     if (work !== undefined) data.work = work;
 
     if (description !== undefined) data.description = description;
 
     if (req.file) {
+
         uploadImage("users", username);
 
         const { path } = req.file;
@@ -97,7 +102,6 @@ export const updateUser = async (req: Request, res: Response) => {
         data.profilePicture = profilePicture;
     }
 
-    console.log(data);
 
     await User.findOneAndUpdate(
         { username },
@@ -112,3 +116,71 @@ export const updateUser = async (req: Request, res: Response) => {
         }
     );
 };
+
+
+export const createOneAchievement = async (req: Request, res: Response) => {
+    
+    const { username } = req.params;
+
+    const { name, date, description } = req.body;
+
+    const existAchievement = await User.findOne({ username, "achievement.name" : name,"achievement.date" : date });;
+
+    if (existAchievement) {
+        
+        return res.status(400).json({ errror: "Ya existe el logro" })
+        
+    }
+
+    const data = { name, date, description };
+
+    await User.findOneAndUpdate({ username },
+
+        { $addToSet: { "achievement": data }} ,{new : false,strict: false,useFindAndModify : false} , (err: any, doc: any) => {
+
+            if(err) return res.status(400).json({ error: "Error al agregar el logro" });
+            
+            if (doc) return res.status(200).json({ Message: "Logro agreagado correctamente" });
+        
+        })
+
+}
+
+export const deleteOneAchievement = async (req: Request, res: Response) => {
+    
+    const { username } = req.params;
+
+    const { name, date } = req.body;
+
+    const existAchievement = await User.findOne({ username, "achievement.name": name, "achievement.date": date });;
+
+    if (existAchievement == null) {
+        
+        return res.status(400).json({ errror: "No se encontro el logro" })
+        
+    }
+
+    await User.updateOne({ username }, { $pull: { achievement: { name: name, date: date } } }, {multi : true}, (err: any, doc: any) => {
+
+            if(err) return res.status(400).json({ error: "Error al eliminar el logro" });
+            
+        if (doc) return res.status(200).json({ Message: "Logro eliminado correctamente" });
+        
+    })
+
+}
+
+export const updateOneAchievement = async (req: Request, res: Response) => {    
+
+
+
+
+
+
+
+
+
+
+
+
+}
