@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
 import Competence from '../models/competences.models';
 
 //Método asíncrono para obtener las competenecias.
@@ -86,10 +86,10 @@ export const updateOneCompetence = async (req: Request, res: Response) =>{
     
 
 
+    console.log(req.params)
 
 
 }   
-
 
 
 

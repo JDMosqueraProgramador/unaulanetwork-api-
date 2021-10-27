@@ -3,13 +3,15 @@ import express from "express";
 
 import { check } from "express-validator";
 
+
 import {
     getOneUser,
     setUsers,
     updateUser,
     createOneAchievement,
-    deleteOneAchievement
-
+    deleteOneAchievement,
+    deleteCompetenceFromProfile,
+    addCompetencesProfile,
 } from "../controllers/users.controllers";
 import { validationUser, existUserById } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
@@ -31,7 +33,6 @@ Router.post(
         fixArrays,
         userSchemaValidator,
         validateInfo
-        
     ],
     setUsers
 );
@@ -57,4 +58,14 @@ Router.delete("/:username/deleteAchievement",
     deleteOneAchievement);
 
     
+Router.put(
+    "/compAdd/:username",[upload.none()],addCompetencesProfile
+);
+Router.put(
+    "/compDelete/:username",
+    [upload.none()],
+    deleteCompetenceFromProfile
+);
+
+
 export default Router;

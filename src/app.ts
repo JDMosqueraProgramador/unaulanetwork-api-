@@ -2,6 +2,8 @@ import express, { Application } from "express";
 import cors from "cors";
 import morgan from "morgan";
 
+import proyectsRouter from "./routers/proyects.router"
+
 import userRouter from "./routers/users.router";
 import competencesRouter from "./routers/competences.router";
 import followRouter from "./routers/follow.router";
@@ -19,6 +21,8 @@ app.use("/users", userRouter);
 app.use("/competences",competencesRouter);
 
 app.use("/follow", followRouter);
+
+app.use("/proyects", proyectsRouter);
 
 
 export default app;
