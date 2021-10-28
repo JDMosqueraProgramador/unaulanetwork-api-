@@ -3,15 +3,18 @@ import express from "express";
 
 import { check } from "express-validator";
 
-
 import {
     getOneUser,
     setUsers,
     updateUser,
+    createOneAchievement,
+    deleteOneAchievement,
     deleteCompetenceFromProfile,
     addCompetencesProfile,
+    login,
 } from "../controllers/users.controllers";
-import { validationUser, existUserById} from '../helpers/validateUser';
+
+import { validationUser, existUserById } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
 import { upload } from "../helpers/multer";
 
@@ -22,6 +25,8 @@ import { tokenValidation } from  "../middlewares/validateToken"
 const Router = express.Router();
 
 Router.get("/:user", tokenValidation , getOneUser);
+
+Router.post("/auth" ,login);
 
 Router.post(
     "/",
@@ -45,8 +50,25 @@ Router.put(
     updateUser
 );
 
-Router.put("/compAdd/:username", addCompetencesProfile);
-Router.put("/compDelete/:username", deleteCompetenceFromProfile);
+Router.put("/:username/addAchievement", [
+    check("username").custom(existUserById),
+    validateInfo
+],createOneAchievement);
+
+Router.delete("/:username/deleteAchievement",
+    [check("username").custom(existUserById),
+    validateInfo],
+    deleteOneAchievement);
+
+    
+Router.put(
+    "/compAdd/:username",[upload.none()],addCompetencesProfile
+);
+Router.put(
+    "/compDelete/:username",
+    [upload.none()],
+    deleteCompetenceFromProfile
+);
 
 
 export default Router;

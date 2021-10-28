@@ -5,7 +5,7 @@
     "main": "dist/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node dist/index.js",
+        "start": "nodemon dist/index.js",
         "dev": "nodemon ./dist/index.js",
         "build": "tsc",
         "go": "npm run build && npm run dev"
@@ -16,6 +16,7 @@
     "dependencies": {
         "@sentry/node": "^6.13.2",
         "@sentry/tracing": "^6.13.2",
+        "axios": "^0.24.0",
         "cloudinary": "^1.26.3",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
