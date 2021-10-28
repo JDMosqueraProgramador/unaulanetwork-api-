@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import User from '../models/users.models';
 import { uploadImage } from "../helpers/uploadFile";
-import Proyect from "../models/proyects.models";
+import Proyect from '../models/proyects.models';
 
 
 require("dotenv").config();
@@ -12,6 +12,7 @@ const cloudinary = require("cloudinary").v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 //Proyectos
+
 
 //Agregar
 
@@ -98,3 +99,29 @@ export const deleteOneProyect = async (req: Request, res: Response) => {
 
     });
 }
+
+//obtener
+
+export const getOneProyect = async (req: Request, res: Response) => {
+
+    const proyects = req.params.Proyect;
+
+    await Proyect.findOne({ Proyect: proyects }, (err: any, user: any) => {
+        Proyect.populate(
+            user,
+            { path: "proyect", select: { name: 1, description: 1 } },
+            (err, proyect) => {
+                //console.log(user);
+                if (err) return res.status(500).json({ error: err });
+
+                if (user) {
+                    return res.status(200).json(user);
+                } else {
+                    return res
+                        .status(404)
+                        .json({ error: "Usuario no encontrado" });
+                }
+            }
+        );
+    });
+};

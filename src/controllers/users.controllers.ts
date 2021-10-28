@@ -154,6 +154,7 @@ export const deleteCompetenceFromProfile = async (req: Request, res: Response) =
         );
     });
 };
+
 export const addCompetencesProfile = async (req: Request, res: Response) => {
     let username = req.params.username;
     let competenceId = req.body.competenceId;
