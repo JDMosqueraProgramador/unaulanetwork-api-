@@ -53,9 +53,9 @@ export const uploadImage = async (coleccion:any,username:any) => {
         const nameArr = model.profilePicture.split("/");
         const name = nameArr[nameArr.length - 1];
         const [public_id] = name.split(".");
-        cloudinary.uploader.destroy(`profile/${public_id}`);
+        if (model.profilePicture !== process.env.profilePictureDeafult) {
+            cloudinary.uploader.destroy(`profile/${public_id}`);
+        }
     }
 
-
 }
- 
