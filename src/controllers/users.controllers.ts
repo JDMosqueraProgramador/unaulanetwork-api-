@@ -20,7 +20,7 @@ export const login = async (req: Request, res: Response) => {
         user, password
     }
 
-    await unaulaApi.post('auth/login', body, { headers: { 'Content-Type': 'application/json' } }).then(async (response) => {
+    await unaulaApi.post('auth/login', body, { headers: { 'Content-Type': 'application/json' } }).then(async (response:any) => {
 
 
         if (response.status == 200) {
@@ -45,7 +45,7 @@ export const login = async (req: Request, res: Response) => {
         }
 
     })
-        .catch(function (error) {
+        .catch(function (error:any) {
             return res.status(error.response.status).json(error.response.data.message);
         });
 }
@@ -264,6 +264,7 @@ export const deleteCompetenceFromProfile = async (req: Request, res: Response) =
         );
     });
 };
+
 export const addCompetencesProfile = async (req: Request, res: Response) => {
 
     let username = req.params.username;
