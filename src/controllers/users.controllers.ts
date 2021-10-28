@@ -17,15 +17,14 @@ export const login = async (req: Request, res: Response) => {
     const { user, password } = req.body;
 
     const body = {
-        user,password
+        user, password
     }
 
+    await unaulaApi.post('auth/login', body, { headers: { 'Content-Type': 'application/json' } }).then(async (response) => {
 
-    await unaulaApi.post('auth/login', body,{ headers : { 'Content-Type': 'application/json' } }) .then(async (response) => {
-        
 
         if (response.status == 200) {
-            
+
             let status = response.status;
 
             await existUserById(user)
@@ -33,12 +32,18 @@ export const login = async (req: Request, res: Response) => {
 
                     status = 204;
 
-            })
+                })
 
-            return res.status(status).header('auth-token',response.headers['auth-token']).json(response.data.message);
+            return res.status(status)
+                .header('Access-Control-Expose-Headers', 'auth-token')
+                .header(
+                    'Access-Control-Allow-Headers',
+                    'auth-token, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header'
+                )
+                .header('auth-token', response.headers['auth-token']).json(response.data.message);
 
         }
-    
+
     })
         .catch(function (error) {
             return res.status(error.response.status).json(error.response.data.message);
@@ -56,7 +61,7 @@ export const setUsers = async (req: Request, res: Response) => {
     data.username = username;
 
     if (!data.achievement == null || !data.achievement == undefined) {
-        
+
         let filterAchivement = data.achievement.filter((a: any) => a != "");
 
         data.achievement = filterAchivement;
@@ -113,12 +118,12 @@ export const getOneUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    
+
     const { username } = req.params;
 
     const { work, description } = req.body;
 
-    let data : DataUpdateUser = {};
+    let data: DataUpdateUser = {};
 
     if (work !== undefined) data.work = work;
 
@@ -126,7 +131,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
     if (req.file) {
 
-        
+
         uploadImage("users", username);
 
         const { path } = req.file;
@@ -157,35 +162,35 @@ export const updateUser = async (req: Request, res: Response) => {
 
 
 export const createOneAchievement = async (req: Request, res: Response) => {
-    
+
     const { username } = req.params;
 
     const { name, date, description } = req.body;
 
-    const existAchievement = await User.findOne({ username, "achievement.name" : name,"achievement.date" : date });;
+    const existAchievement = await User.findOne({ username, "achievement.name": name, "achievement.date": date });;
 
     if (existAchievement) {
-        
+
         return res.status(400).json({ errror: "Ya existe el logro" })
-        
+
     }
 
     const data = { name, date, description };
 
     await User.findOneAndUpdate({ username },
 
-        { $addToSet: { "achievement": data }} ,{new : false,strict: false,useFindAndModify : false} , (err: any, doc: any) => {
+        { $addToSet: { "achievement": data } }, { new: false, strict: false, useFindAndModify: false }, (err: any, doc: any) => {
 
-            if(err) return res.status(400).json({ error: "Error al agregar el logro" });
-            
+            if (err) return res.status(400).json({ error: "Error al agregar el logro" });
+
             if (doc) return res.status(200).json({ Message: "Logro agreagado correctamente" });
-        
+
         })
 
 }
 
 export const deleteOneAchievement = async (req: Request, res: Response) => {
-    
+
     const { username } = req.params;
 
     const { name, date } = req.body;
@@ -193,22 +198,22 @@ export const deleteOneAchievement = async (req: Request, res: Response) => {
     const existAchievement = await User.findOne({ username, "achievement.name": name, "achievement.date": date });;
 
     if (existAchievement == null) {
-        
+
         return res.status(400).json({ errror: "No se encontro el logro" })
-        
+
     }
 
-    await User.updateOne({ username }, { $pull: { achievement: { name: name, date: date } } }, {multi : true}, (err: any, doc: any) => {
+    await User.updateOne({ username }, { $pull: { achievement: { name: name, date: date } } }, { multi: true }, (err: any, doc: any) => {
 
-            if(err) return res.status(400).json({ error: "Error al eliminar el logro" });
-            
+        if (err) return res.status(400).json({ error: "Error al eliminar el logro" });
+
         if (doc) return res.status(200).json({ Message: "Logro eliminado correctamente" });
-        
+
     })
 
 }
 
-export const updateOneAchievement = async (req: Request, res: Response) => {    
+export const updateOneAchievement = async (req: Request, res: Response) => {
 
 
 
@@ -260,11 +265,11 @@ export const deleteCompetenceFromProfile = async (req: Request, res: Response) =
     });
 };
 export const addCompetencesProfile = async (req: Request, res: Response) => {
-    
+
     let username = req.params.username;
     let competenceId = req.body.competenceId;
 
-    
+
     await User.findOne({ username }, (error: any, user: any) => {
         let data: any = {};
         let originalCompetences = user.competences;
