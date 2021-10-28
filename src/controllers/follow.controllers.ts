@@ -75,6 +75,7 @@ export const myFollowings = async (req: Request, res: Response) => {
 };
 
 export const myFollowers = async(req:Request, res:Response) => {
+    
  let id = req.params.id;
  let Followers: any = [];
 
