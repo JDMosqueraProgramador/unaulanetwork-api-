@@ -1,18 +1,50 @@
 import { DataUpdateUser } from "./../interfaces/interface";
-import { Request, Response } from "express";
+import { Request, Response, response } from 'express';
 import User from "../models/users.models";
 import Competences from "../models/competences.models";
 import { uploadImage } from "../helpers/uploadFile";
-import { checkEmail } from "../helpers/validateUser";
+import { checkEmail, existUserById } from "../helpers/validateUser";
 import { existCompetenceByName } from '../helpers/competenceValidation';
 import Competence from '../models/competences.models';
-
-
+import { unaulaApi } from '../services/summoner';
 require("dotenv").config();
-
 const cloudinary = require("cloudinary").v2;
-
 cloudinary.config(process.env.CLOUDINARY_URL);
+
+
+export const login = async (req: Request, res: Response) => {
+
+    const { user, password } = req.body;
+
+    const body = {
+        user,password
+    }
+
+
+    await unaulaApi.post('auth/login', body,{ headers : { 'Content-Type': 'application/json' } }) .then(async (response) => {
+        
+
+        if (response.status == 200) {
+            
+            let status = response.status;
+
+            await existUserById(user)
+                .catch(error => {
+
+                    status = 204;
+
+            })
+
+            return res.status(status).header('auth-token',response.headers['auth-token']).json(response.data.message);
+
+        }
+    
+    })
+        .catch(function (error) {
+            return res.status(error.response.status).json(error.response.data.message);
+        });
+}
+
 
 export const setUsers = async (req: Request, res: Response) => {
 
@@ -194,7 +226,7 @@ export const deleteCompetenceFromProfile = async (req: Request, res: Response) =
     let username = req.params.username;
     let competenceId = req.body.competenceId;
 
-   await User.findOne({ username }, (error: any, user: any) => {
+    await User.findOne({ username }, (error: any, user: any) => {
         let originalCompetences = user.competences;
         let updatedCompetences = originalCompetences.filter((comp: any) => {
             if (comp != competenceId) {

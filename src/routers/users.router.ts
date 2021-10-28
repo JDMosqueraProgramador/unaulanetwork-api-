@@ -3,7 +3,6 @@ import express from "express";
 
 import { check } from "express-validator";
 
-
 import {
     getOneUser,
     setUsers,
@@ -12,7 +11,9 @@ import {
     deleteOneAchievement,
     deleteCompetenceFromProfile,
     addCompetencesProfile,
+    login,
 } from "../controllers/users.controllers";
+
 import { validationUser, existUserById } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
 import { upload } from "../helpers/multer";
@@ -24,6 +25,8 @@ import { tokenValidation } from  "../middlewares/validateToken"
 const Router = express.Router();
 
 Router.get("/:user", tokenValidation , getOneUser);
+
+Router.post("/auth" ,login);
 
 Router.post(
     "/",
