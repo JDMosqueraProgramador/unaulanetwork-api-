@@ -93,11 +93,6 @@ export const updateOneCompetence = async (req: Request, res: Response) =>{
 
 }   
 
-
-
-
-
-
 //Posible reutilizacion en otro lugar
  // if(name == ""){
     //     return res.status(400).json({

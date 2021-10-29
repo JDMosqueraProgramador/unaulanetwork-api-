@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 const { body, checkSchema, validationResult } = require("express-validator");
 import User from "../models/users.models";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { validate } from "uuid";
+import express from 'express';
+import { checkEmail } from "../helpers/validateUser";
 
 const userSchemaValidator = checkSchema({
     username: {
@@ -36,5 +38,16 @@ const userSchemaValidator = checkSchema({
     },
    
 });
+
+export const userExist = async (req: Request, res: Response, next: NextFunction) => {
+
+    const user = checkEmail(req.body.username);
+
+    const usuario = await User.findOne({ username: user })
+    if (!usuario) {
+        res.status(400).json({error:'Usuario '})
+    }
+
+}
 
 export default userSchemaValidator;

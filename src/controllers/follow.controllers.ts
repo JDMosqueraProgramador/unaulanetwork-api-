@@ -71,16 +71,10 @@ export const myFollowings = async (req: Request, res: Response) => {
     });
 };
 
-export const myFollowers = async (req: Request, res: Response) => {
-    if (req.params.id == null || req.params.id == undefined ) {
-        return res
-            .status(400)
-            .json({ message: "Has enviado incorrectamente el ID" });
-    }
-
-
-    let id = req.params.id;
-    let Followers: any = [];
+export const myFollowers = async(req:Request, res:Response) => {
+    
+ let id = req.params.id;
+ let Followers: any = [];
 
    
     const result = await Follower.find({ following: id })
