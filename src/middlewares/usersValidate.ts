@@ -10,11 +10,9 @@ const userSchemaValidator = checkSchema({
             options: async (value: any) => {
                 try {
                     const user = await User.findOne({ username: value });
-
-                    if (user != null) {
                         //console.log("Acá se verificó que NO se creó")
                         throw new Error("Este username está ocupado");
-                    }
+                    
                 } catch {
                     throw new Error(
                         "No has enviado correctamente el nombre de usuario"
@@ -36,6 +34,7 @@ const userSchemaValidator = checkSchema({
             },
         },
     },
+   
 });
 
 export default userSchemaValidator;

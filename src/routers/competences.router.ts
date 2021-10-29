@@ -6,6 +6,7 @@ import { deleteOneCompetence, updateOneCompetence } from '../controllers/compete
 import { tokenValidation } from  "../middlewares/validateToken";
 import { validateInfo } from "../middlewares/validateData";
 
+
 import {
     getCompetences,
     getCompetencesByArea,
@@ -21,7 +22,7 @@ Router.get("/search", getCompetences);
 
 Router.get("/searcharea", getCompetencesByArea);
 
-Router.post('/area', createOneCompetence);
+Router.post("/area", createOneCompetence);
 
 Router.delete('/delete/:competenceName', [
     check("competenceName").custom(existCompetenceByName),

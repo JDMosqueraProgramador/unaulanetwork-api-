@@ -227,38 +227,49 @@ export const deleteCompetenceFromProfile = async (req: Request, res: Response) =
         );
     });
 };
-export const addCompetencesProfile = async (req: Request, res: Response) => {
+export const updateCompetencesProfile = async (req: Request, res: Response) => {
     
     let username = req.params.username;
-    let competenceId = req.body.competenceId;
+    let competences = req.body.competences;
 
     
-    await User.findOne({ username }, (error: any, user: any) => {
-        let data: any = {};
-        let originalCompetences = user.competences;
 
-        if (originalCompetences.includes(competenceId)) {
-            return res.status(400).json({
-                error: "Ya tienes esta competencia: " + competenceId,
-            });
+    if(Array.isArray(competences)){
+        
+        if(competences.length == 0){
+             return res.status(400).json({message:"El arreglo está vacío"})
+             
         }
 
-        originalCompetences.push(competenceId);
-        data.competences = originalCompetences;
-        console.log(originalCompetences);
+        let uniqueCompetences = Array.from(new Set(competences));
+        
+        let newCompetences = uniqueCompetences.filter((e) =>{if(e==""|| e==''){ return false;};return e !==null || e.length>3 || e.length !== 0|| e !=="" || e !==''})
+        
+        
+
+        console.log(newCompetences)
+        await User.findOne({ username }, (error: any, user: any) => {
+            let data: any = {};
+            data.competences = newCompetences;
+
+            User.findOneAndUpdate(
+                { username },
+                data,
+                { new: true, useFindAndModify: false },
+                (err: any, user: any) => {
+                    if (err) return res.status(500).json({ error: err });
+
+                    if (user) return res.status(200).json(user);
+
+                    if (!user) return res.status(400).json({ error: err });
+                }
+            );
+        });
 
 
-        User.findOneAndUpdate(
-            { username },
-            data,
-            { new: true, useFindAndModify: false },
-            (err: any, user: any) => {
-                if (err) return res.status(500).json({ error: err });
-
-                if (user) return res.status(200).json(user);
-
-                if (!user) return res.status(400).json({ error: err });
-            }
-        );
-    });
+    }else{
+        return res.status(400).json({message:"No has enviado correctamente las competencias en el tipo de dato correcto)"})
+    }
+    
+    
 };

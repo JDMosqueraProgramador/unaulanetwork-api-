@@ -10,8 +10,7 @@ import {
     updateUser,
     createOneAchievement,
     deleteOneAchievement,
-    deleteCompetenceFromProfile,
-    addCompetencesProfile,
+    updateCompetencesProfile,
 } from "../controllers/users.controllers";
 import { validationUser, existUserById } from '../helpers/validateUser';
 import { validateInfo } from "../middlewares/validateData";
@@ -59,13 +58,11 @@ Router.delete("/:username/deleteAchievement",
 
     
 Router.put(
-    "/compAdd/:username",[upload.none()],addCompetencesProfile
-);
-Router.put(
-    "/compDelete/:username",
+    "/updateCompetences/:username",
     [upload.none()],
-    deleteCompetenceFromProfile
+    updateCompetencesProfile
 );
+
 
 
 export default Router;
