@@ -1,5 +1,6 @@
-import { DataUpdateUser } from "./../interfaces/interface";
-import { Request, Response, response } from 'express';
+import { response } from 'express';
+import { DataUpdateUser,IUser } from "./../interfaces/interface";
+import { Request, Response } from 'express';
 import User from "../models/users.models";
 import Competences from "../models/competences.models";
 import { uploadImage } from "../helpers/uploadFile";
@@ -7,6 +8,7 @@ import { checkEmail, existUserById } from "../helpers/validateUser";
 import { existCompetenceByName } from '../helpers/competenceValidation';
 import Competence from '../models/competences.models';
 import { unaulaApi } from '../services/summoner';
+import Message from '../models/messages.models';
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
@@ -94,8 +96,22 @@ export const setUsers = async (req: Request, res: Response) => {
 };
 
 export const getOneUser = async (req: Request, res: Response) => {
+
     const userParam = req.params.user;
-    //console.log(req.headers)
+
+    let data: IUser = {} ;
+
+    await unaulaApi.get(`users/studentinfo/?userName=${userParam}`).then((response) => {
+    
+        data.name = response.data[0].strName;
+        data.rol = response.data[0].rol;
+        data.faculty = response.data[0].strfacultyname;
+        data.deparment = response.data[0].strDepartmentName;
+
+
+    }).catch((error) => {
+        console.log( error);
+    })
 
     await User.findOne({ username: userParam }, (err: any, user: any) => {
         Competences.populate(
@@ -106,7 +122,10 @@ export const getOneUser = async (req: Request, res: Response) => {
                 if (err) return res.status(500).json({ error: err });
 
                 if (user) {
-                    return res.status(200).json(user);
+
+                    data = {...data, ...user._doc };
+
+                    return res.status(200).json(data);
                 } else {
                     return res
                         .status(404)
