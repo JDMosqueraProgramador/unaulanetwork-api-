@@ -61,14 +61,28 @@ export const myFollowings = async (req: Request, res: Response) => {
             unaulaApi
                 .get(`users/studentinfo/?userName=${data.username}`)
                 .then((response) => {
-                    let dataFollowing = {
-                        id_following: e.following,
-                        name: response.data[counter].strName,
-                        faculty: response.data[counter].strfacultyname,
-                        username: data.username,
-                        profilePicture: data.profilePicture,
-                    };
-                    Following.push(dataFollowing);
+                    if (
+                        response.data[counter] != null ||
+                        response.data[counter] != undefined
+                    ) {
+                         let dataFollowing = {
+                             id_following: e.following,
+                             name: response.data[counter].strName,
+                             faculty: response.data[counter].strfacultyname,
+                             username: data.username,
+                             profilePicture: data.profilePicture,
+                         };
+                         Following.push(dataFollowing);
+                    }else{
+                        let dataFollowing = {
+                            id_following: e.following,
+                            username: data.username,
+                            profilePicture: data.profilePicture,
+                        };
+                        Following.push(dataFollowing);
+                    }
+
+                   
 
                     if (
                         i == result.length - 1 ||
@@ -110,18 +124,32 @@ export const myFollowers = async (req: Request, res: Response) => {
             if (data == null || data == undefined) {
                 return false;
             }
+
             unaulaApi
                 .get(`users/studentinfo/?userName=${data.username}`)
                 .then((response) => {
-                    let dataFollower = {
-                        id_following: e.follower,
-                        name: response.data[counter].strName,
-                        faculty: response.data[counter].strfacultyname,
-                        username: data.username,
-                        profilePicture: data.profilePicture,
-                    };
+                    
+                    if (
+                        response.data[counter] != null ||
+                        response.data[counter] != undefined
+                    ) {
+                        let dataFollower = {
+                            id_follower: e.follower,
+                            name: response.data[counter].strName,
+                            faculty: response.data[counter].strfacultyname,
+                            username: data.username,
+                            profilePicture: data.profilePicture,
+                        };
+                        Followers.push(dataFollower);
+                    } else {
+                        let dataFollower = {
+                            id_follower: e.follower,
+                            username: data.username,
+                            profilePicture: data.profilePicture,
+                        };
+                        Followers.push(dataFollower);
+                    }
 
-                    Followers.push(dataFollower);
 
                     if (
                         i == result.length - 1 ||
@@ -132,7 +160,7 @@ export const myFollowers = async (req: Request, res: Response) => {
                     counter++;
                 })
                 .catch((error) => {
-                    console.log(error);
+                    return res.status(500).json({error: `${error}`})
                 });
         });
     });
