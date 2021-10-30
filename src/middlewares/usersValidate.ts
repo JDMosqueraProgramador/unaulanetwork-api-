@@ -5,21 +5,18 @@ import { NextFunction, Request, Response } from "express";
 import { validate } from "uuid";
 import express from 'express';
 import { checkEmail } from "../helpers/validateUser";
+import Message from '../models/messages.models';
 
 const userSchemaValidator = checkSchema({
     username: {
         custom: {
             options: async (value: any) => {
-                try {
+                
                     const user = await User.findOne({ username: value });
                         
                         throw new Error("Este username está ocupado");
                     
-                } catch {
-                    throw new Error(
-                        "No has enviado correctamente el nombre de usuario"
-                    );
-                }
+                
             },
         },
     },
