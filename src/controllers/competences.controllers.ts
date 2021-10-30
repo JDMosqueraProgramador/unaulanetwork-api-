@@ -27,6 +27,8 @@ export const getCompetences = async (req: Request, res: Response) => {
 };
 
 export const getCompetencesByArea = async(req: Request, res: Response) =>{
+    
+    
     const {area} = req.query;
     console.log(area);
     const searchCompetences = String(area);

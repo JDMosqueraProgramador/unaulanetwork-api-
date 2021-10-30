@@ -13,57 +13,53 @@ require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
-
 export const login = async (req: Request, res: Response) => {
-
     const { user, password } = req.body;
 
     const body = {
-        user, password
-    }
+        user,
+        password,
+    };
 
-    await unaulaApi.post('auth/login', body, { headers: { 'Content-Type': 'application/json' } }).then(async (response:any) => {
+    await unaulaApi
+        .post("auth/login", body, {
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(async (response: any) => {
+            if (response.status == 200) {
+                let status = response.status;
 
-
-        if (response.status == 200) {
-
-            let status = response.status;
-
-            await existUserById(user)
-                .catch(error => {
-
+                await existUserById(user).catch((error) => {
                     status = 204;
+                });
 
-                })
-
-            return res.status(status)
-                .header('Access-Control-Expose-Headers', 'auth-token')
-                .header(
-                    'Access-Control-Allow-Headers',
-                    'auth-token, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header'
-                )
-                .header('auth-token', response.headers['auth-token']).json(response.data.message);
-
-        }
-
-    })
-        .catch(function (error:any) {
-            return res.status(error.response.status).json(error.response.data.message);
+                return res
+                    .status(status)
+                    .header("Access-Control-Expose-Headers", "auth-token")
+                    .header(
+                        "Access-Control-Allow-Headers",
+                        "auth-token, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header"
+                    )
+                    .header("auth-token", response.headers["auth-token"])
+                    .json(response.data.message);
+            }
+        })
+        .catch(function (error: any) {
+            return res
+                .status(error.response.status)
+                .json(error.response.data.message);
         });
-}
-
+};
 
 export const setUsers = async (req: Request, res: Response) => {
-
     const { ...data } = req.body;
-    //console.log(req.headers);
+    
 
     const username = checkEmail(data.username);
     //console.log(username)
     data.username = username;
 
     if (!data.achievement == null || !data.achievement == undefined) {
-
         let filterAchivement = data.achievement.filter((a: any) => a != "");
 
         data.achievement = filterAchivement;
@@ -136,7 +132,6 @@ export const getOneUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-
     const { username } = req.params;
 
     const { work, description } = req.body;
@@ -148,8 +143,6 @@ export const updateUser = async (req: Request, res: Response) => {
     if (description !== undefined) data.description = description;
 
     if (req.file) {
-
-
         uploadImage("users", username);
 
         const { path } = req.file;
@@ -162,7 +155,6 @@ export const updateUser = async (req: Request, res: Response) => {
 
         data.profilePicture = profilePicture;
     }
-
 
     await User.findOneAndUpdate(
         { username },
@@ -178,143 +170,131 @@ export const updateUser = async (req: Request, res: Response) => {
     );
 };
 
-
 export const createOneAchievement = async (req: Request, res: Response) => {
-
     const { username } = req.params;
 
     const { name, date, description } = req.body;
 
-    const existAchievement = await User.findOne({ username, "achievement.name": name, "achievement.date": date });;
+    const existAchievement = await User.findOne({
+        username,
+        "achievement.name": name,
+        "achievement.date": date,
+    });
 
     if (existAchievement) {
-
-        return res.status(400).json({ errror: "Ya existe el logro" })
-
+        return res.status(400).json({ errror: "Ya existe el logro" });
     }
 
     const data = { name, date, description };
 
-    await User.findOneAndUpdate({ username },
+    await User.findOneAndUpdate(
+        { username },
 
-        { $addToSet: { "achievement": data } }, { new: false, strict: false, useFindAndModify: false }, (err: any, doc: any) => {
+        { $addToSet: { achievement: data } },
+        { new: false, strict: false, useFindAndModify: false },
+        (err: any, doc: any) => {
+            if (err)
+                return res
+                    .status(400)
+                    .json({ error: "Error al agregar el logro" });
 
-            if (err) return res.status(400).json({ error: "Error al agregar el logro" });
-
-            if (doc) return res.status(200).json({ Message: "Logro agreagado correctamente" });
-
-        })
-
-}
+            if (doc)
+                return res
+                    .status(200)
+                    .json({ Message: "Logro agreagado correctamente" });
+        }
+    );
+};
 
 export const deleteOneAchievement = async (req: Request, res: Response) => {
-
     const { username } = req.params;
 
     const { name, date } = req.body;
 
-    const existAchievement = await User.findOne({ username, "achievement.name": name, "achievement.date": date });;
+    const existAchievement = await User.findOne({
+        username,
+        "achievement.name": name,
+        "achievement.date": date,
+    });
 
     if (existAchievement == null) {
-
-        return res.status(400).json({ errror: "No se encontro el logro" })
-
+        return res.status(400).json({ errror: "No se encontro el logro" });
     }
 
-    await User.updateOne({ username }, { $pull: { achievement: { name: name, date: date } } }, { multi: true }, (err: any, doc: any) => {
+    await User.updateOne(
+        { username },
+        { $pull: { achievement: { name: name, date: date } } },
+        { multi: true },
+        (err: any, doc: any) => {
+            if (err)
+                return res
+                    .status(400)
+                    .json({ error: "Error al eliminar el logro" });
 
-        if (err) return res.status(400).json({ error: "Error al eliminar el logro" });
-
-        if (doc) return res.status(200).json({ Message: "Logro eliminado correctamente" });
-
-    })
-
-}
-
-export const updateOneAchievement = async (req: Request, res: Response) => {
-
-
-
-
-
-
-
-
-
-
-}
-
-export const deleteCompetenceFromProfile = async (req: Request, res: Response) => {
-    console.log(req.params);
-    let username = req.params.username;
-    let competenceId = req.body.competenceId;
-
-    await User.findOne({ username }, (error: any, user: any) => {
-        let originalCompetences = user.competences;
-        let updatedCompetences = originalCompetences.filter((comp: any) => {
-            if (comp != competenceId) {
-                return comp;
-            }
-        });
-
-        let data: any = {};
-        data.competences = updatedCompetences;
-
-        if (originalCompetences.length == updatedCompetences.length) {
-            return res
-                .status(400)
-                .json({
-                    error: "No tienes esta competencia o se ha introducido un ID diferente",
-                });
+            if (doc)
+                return res
+                    .status(200)
+                    .json({ Message: "Logro eliminado correctamente" });
         }
-
-        User.findOneAndUpdate(
-            { username },
-            data,
-            { new: true, useFindAndModify: false },
-            (err: any, user: any) => {
-                if (err) return res.status(500).json({ error: err });
-
-                if (user) return res.status(200).json(user);
-
-                if (!user) return res.status(400).json({ error: err });
-            }
-        );
-    });
+    );
 };
 
-export const addCompetencesProfile = async (req: Request, res: Response) => {
+export const updateOneAchievement = async (req: Request, res: Response) => {};
 
+
+export const updateCompetencesProfile = async (req: Request, res: Response) => {
     let username = req.params.username;
-    let competenceId = req.body.competenceId;
-
+    let competences = req.body.competences;
 
     await User.findOne({ username }, (error: any, user: any) => {
         let data: any = {};
         let originalCompetences = user.competences;
 
-        if (originalCompetences.includes(competenceId)) {
+        if (Array.isArray(competences)) {
+            if (competences.length == 0) {
+                return res
+                    .status(400)
+                    .json({ message: "El arreglo está vacío" });
+            }
+
+            let uniqueCompetences = Array.from(new Set(competences));
+
+            let newCompetences = uniqueCompetences.filter((e) => {
+                if (e == "" || e == "") {
+                    return false;
+                }
+                return (
+                    e !== null ||
+                    e.length > 3 ||
+                    e.length !== 0 ||
+                    e !== "" ||
+                    e !== ""
+                );
+            });
+
+            //console.log(newCompetences)
+            User.findOne({ username }, (error: any, user: any) => {
+                let data: any = {};
+                data.competences = newCompetences;
+
+                User.findOneAndUpdate(
+                    { username },
+                    data,
+                    { new: true, useFindAndModify: false },
+                    (err: any, user: any) => {
+                        if (err) return res.status(500).json({ error: err });
+
+                        if (user) return res.status(200).json(user);
+
+                        if (!user) return res.status(400).json({ error: err });
+                    }
+                );
+            });
+        } else {
             return res.status(400).json({
-                error: "Ya tienes esta competencia: " + competenceId,
+                message:
+                    "No has enviado correctamente las competencias en el tipo de dato correcto)",
             });
         }
-
-        originalCompetences.push(competenceId);
-        data.competences = originalCompetences;
-        console.log(originalCompetences);
-
-
-        User.findOneAndUpdate(
-            { username },
-            data,
-            { new: true, useFindAndModify: false },
-            (err: any, user: any) => {
-                if (err) return res.status(500).json({ error: err });
-
-                if (user) return res.status(200).json(user);
-
-                if (!user) return res.status(400).json({ error: err });
-            }
-        );
     });
 };

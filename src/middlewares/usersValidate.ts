@@ -5,23 +5,18 @@ import { NextFunction, Request, Response } from "express";
 import { validate } from "uuid";
 import express from 'express';
 import { checkEmail } from "../helpers/validateUser";
+import Message from '../models/messages.models';
 
 const userSchemaValidator = checkSchema({
     username: {
         custom: {
             options: async (value: any) => {
-                try {
+                
                     const user = await User.findOne({ username: value });
-
-                    if (user != null) {
-                        //console.log("Acá se verificó que NO se creó")
+                        
                         throw new Error("Este username está ocupado");
-                    }
-                } catch {
-                    throw new Error(
-                        "No has enviado correctamente el nombre de usuario"
-                    );
-                }
+                    
+                
             },
         },
     },
@@ -38,6 +33,7 @@ const userSchemaValidator = checkSchema({
             },
         },
     },
+   
 });
 
 export const userExist = async (req: Request, res: Response, next: NextFunction) => {
@@ -46,7 +42,7 @@ export const userExist = async (req: Request, res: Response, next: NextFunction)
 
     const usuario = await User.findOne({ username: user })
     if (!usuario) {
-        res.status(400).json({error:'Usuario '})
+        res.status(400).json({error:'Usuario existente'})
     }
 
 }
