@@ -1,53 +1,39 @@
-import { Request, Response, NextFunction, request, response } from 'express';
 const { body, checkSchema, validationResult } = require("express-validator");
 import Competence from '../models/competences.models';
 import { existCompetenceByName } from '../helpers/competenceValidation';
+import { NextFunction, Request, Response, request, response } from 'express';
+import { validate } from 'uuid';
 
 
-export const competenceSchemaValidator = checkSchema({
-    name: {
-        custom: {
-            options: async (value:any) => {
-                
-                const comp = await Competence.findOne({ name: value });
-                //console.log(comp)
-                
-                if(comp){
-                    
-                }
-               
-            },
+const competenceSchemaValidator = [
+    checkSchema({
+        name: {
+             isLength: {
+                 errorMessage: "El nombre debe tener al menos x numero de carcteres",
+                 options: { min: 7 },
+             },
+           
         },
-    },
-    description: {
-        custom: {
-            options: async (value: any) => {
-                try {
-                    console.log(value.length);
-                } catch (error) {
-                    throw new Error(
-                        "No has ingresado correctamente la descripción de la competencia."
-                    );
-                }
-            },
-        },
-    },
-    area: {
-        custom: {
-            options: async (value: any) => {
-                try {
-                   const areas =['informatica','derecho','contaduria','industrial','idiomas','educacion','']
+        area:{
+            custom:{
+                options: async(value:any)=>{
+                    let areas = ['informatica','derecho','contaduria','industrial','idiomas','educacion','']
                     if(!areas.includes(value)){
-                        throw new Error ("El area introducida NO pertenece a las que tenemos");
+                        throw new Error("El área NO es de las especificadas.")
                     }
-                    
-                } catch (error) {
-                    throw new Error(
-                        "No has ingresado correctamente el área de la competencia."
-                    );
                 }
-            },
-        },
-    },
-    
-});
+            }
+        }
+    }),
+    (req: Request, res: Response, next:any) => {
+        //console.log(validationResult(req).errors);
+        if (validationResult(req).errors.length > 0){
+
+            res.status(400).json(validationResult(req).errors)
+        } else{
+            next();
+        }
+    }
+];
+
+export default competenceSchemaValidator;

@@ -14,6 +14,8 @@ import {
 
 } from "../controllers/competences.controllers";
 import { existCompetenceByName } from "../helpers/competenceValidation";
+import competenceSchemaValidator from '../middlewares/validateCompetences';
+
 
 
 const Router = express.Router();
@@ -22,7 +24,7 @@ Router.get("/search", getCompetences);
 
 Router.get("/searcharea", getCompetencesByArea);
 
-Router.post("/area", createOneCompetence);
+Router.post("/area",competenceSchemaValidator, createOneCompetence);
 
 Router.delete('/delete/:competenceName', [
     check("competenceName").custom(existCompetenceByName),
@@ -30,8 +32,6 @@ Router.delete('/delete/:competenceName', [
     ],
     deleteOneCompetence);
 
-
-// Router.delete('del/:competenceName/:id', deleteCompetenceFromProfile)
 
 Router.put('/update/:competenceName',updateOneCompetence)
 

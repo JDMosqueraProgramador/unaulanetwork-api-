@@ -12,7 +12,7 @@ const userSchemaValidator = checkSchema({
             options: async (value: any) => {
                 try {
                     const user = await User.findOne({ username: value });
-                        //console.log("Acá se verificó que NO se creó")
+                        
                         throw new Error("Este username está ocupado");
                     
                 } catch {
@@ -45,7 +45,7 @@ export const userExist = async (req: Request, res: Response, next: NextFunction)
 
     const usuario = await User.findOne({ username: user })
     if (!usuario) {
-        res.status(400).json({error:'Usuario '})
+        res.status(400).json({error:'Usuario existente'})
     }
 
 }

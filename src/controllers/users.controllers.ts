@@ -51,7 +51,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const setUsers = async (req: Request, res: Response) => {
     const { ...data } = req.body;
-    //console.log(req.headers);
+    
 
     const username = checkEmail(data.username);
     //console.log(username)
