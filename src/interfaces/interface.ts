@@ -16,7 +16,7 @@ export interface IUser{
         username?: String;
         faculty?: String;
         rol?: String;
-        deparment?: String;
+        department?: String;
         work?: String;
         description?: String;
         achievement?: Array<Object>;

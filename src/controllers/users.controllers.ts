@@ -95,18 +95,28 @@ export const getOneUser = async (req: Request, res: Response) => {
 
     const userParam = req.params.user;
 
+    console.log(userParam);
+
     let data: IUser = {} ;
 
-    await unaulaApi.get(`users/studentinfo/?userName=${userParam}`).then((response) => {
-    
+    const userApi =  await unaulaApi.get(`users/studentinfo/?userName=${userParam}`).then((response) => {
+        
+        if (response.data.length == 0) {
+
+            return false;
+
+        }
         data.name = response.data[0].strName;
         data.rol = response.data[0].rol;
         data.faculty = response.data[0].strfacultyname;
-        data.deparment = response.data[0].strDepartmentName;
+        data.department = response.data[0].strDepartmentName;
+        return true;
 
     }).catch((error) => {
         console.log( error);
     })
+
+    if (!userApi) return   res.status(204).json('Contenido no encontrado');
 
     await User.findOne({ username: userParam }, (err: any, user: any) => {
         Competences.populate(
@@ -182,7 +192,7 @@ export const createOneAchievement = async (req: Request, res: Response) => {
     });
 
     if (existAchievement) {
-        return res.status(400).json({ errror: "Ya existe el logro" });
+        return res.status(400).json({ error: "Ya existe el logro" });
     }
 
     const data = { name, date, description };
