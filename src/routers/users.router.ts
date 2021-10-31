@@ -52,11 +52,16 @@ Router.put(
 
 Router.put("/:username/addAchievement", [
     check("username").custom(existUserById),
+    check("name").isEmpty(),
+    check("date").isEmpty(),
+    check("description").isEmpty(),
     validateInfo
 ],createOneAchievement);
 
 Router.delete("/:username/deleteAchievement",
     [check("username").custom(existUserById),
+    check("name").isEmpty(),
+    check("date").isEmpty(),
     validateInfo],
     deleteOneAchievement);
 

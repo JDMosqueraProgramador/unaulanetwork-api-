@@ -104,7 +104,6 @@ export const getOneUser = async (req: Request, res: Response) => {
         data.faculty = response.data[0].strfacultyname;
         data.deparment = response.data[0].strDepartmentName;
 
-
     }).catch((error) => {
         console.log( error);
     })
