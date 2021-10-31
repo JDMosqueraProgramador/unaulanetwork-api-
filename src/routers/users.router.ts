@@ -33,10 +33,10 @@ Router.post(
     [
         upload.single("profilePicture"),
         check("username").custom(validationUser),
-        fixArrays,
+        fixArrays],
         userSchemaValidator,
         validateInfo
-    ],
+    ,
     setUsers
 );
 
