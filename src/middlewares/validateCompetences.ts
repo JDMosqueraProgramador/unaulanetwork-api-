@@ -13,6 +13,12 @@ const competenceSchemaValidator = [
                  options: { min: 3 },
              },
         },
+        description:{
+            isLength: {
+                errorMessage: 'La descripción debe tener al menos 7 caracteres',
+                // Multiple options would be expressed as an array
+                options: { min: 7 }
+            }},
         area:{
             custom:{
                 options: async(value:any)=>{
