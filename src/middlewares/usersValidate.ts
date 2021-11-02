@@ -50,11 +50,14 @@ const userSchemaValidator = [
         achievement: {
             custom: {
                 options: async (value: any) => {
-                    if (!Array.isArray(value)) {
-                        throw new Error(
-                            "Los logros no se entregaron en forma de arreglo"
-                        );
-                    }
+                    
+                    //*Activar cuando esten los logros
+                    // if (!Array.isArray(value)) {
+                    //     throw new Error(
+                    //         "Los logros no se entregaron en forma de arreglo"
+                    //     );
+                    // }
+
                 },
             },
         },

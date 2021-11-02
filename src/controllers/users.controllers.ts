@@ -59,11 +59,7 @@ export const setUsers = async (req: Request, res: Response) => {
     //console.log(username)
     data.username = username;
 
-    if (!data.achievement == null || !data.achievement == undefined) {
-        let filterAchivement = data.achievement.filter((a: any) => a != "");
-
-        data.achievement = filterAchivement;
-    }
+    
 
     if (req.file) {
         const { path } = req.file;
