@@ -27,7 +27,7 @@ export const login = async (req: Request, res: Response) => {
                 let status = response.status;
 
                 await existUserById(user).catch((error) => {
-                    status = 204;
+                    status = 206;
                 });
 
                 return res
@@ -135,7 +135,7 @@ export const getOneUser = async (req: Request, res: Response) => {
                     console.log(data);
                     
                     //TODO si no esta en api de nosotros
-                    return res.status(203).json(data);
+                    return res.status(206).json(data);
                     
                 }
             }
