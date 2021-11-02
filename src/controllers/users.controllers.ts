@@ -1,5 +1,5 @@
 import { response } from 'express';
-import { DataUpdateUser,IUser } from "./../interfaces/interface";
+import { DataUpdateUser, IUser } from "./../interfaces/interface";
 import { Request, Response } from 'express';
 import User from "../models/users.models";
 import Competences from "../models/competences.models";
@@ -53,7 +53,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const setUsers = async (req: Request, res: Response) => {
     const { ...data } = req.body;
-    
+
 
     const username = checkEmail(data.username);
     //console.log(username)
@@ -97,10 +97,10 @@ export const getOneUser = async (req: Request, res: Response) => {
 
     console.log(userParam);
 
-    let data: IUser = {} ;
+    let data: IUser = {};
 
-    const userApi =  await unaulaApi.get(`users/studentinfo/?userName=${userParam}`).then((response) => {
-        
+    const userApi = await unaulaApi.get(`users/studentinfo/?userName=${userParam}`).then((response) => {
+
         if (response.data.length == 0) {
 
             return false;
@@ -113,10 +113,10 @@ export const getOneUser = async (req: Request, res: Response) => {
         return true;
 
     }).catch((error) => {
-        console.log( error);
+        console.log(error);
     })
 
-    if (!userApi) return   res.status(204).json('Contenido no encontrado');
+    if (!userApi) return res.status(404).json('Usuario no encontrado');
 
     await User.findOne({ username: userParam }, (err: any, user: any) => {
         Competences.populate(
@@ -128,13 +128,14 @@ export const getOneUser = async (req: Request, res: Response) => {
 
                 if (user) {
 
-                    data = {...data, ...user._doc };
+                    data = { ...data, ...user._doc };
 
                     return res.status(200).json(data);
+
                 } else {
-                    return res
-                        .status(404)
-                        .json({ error: "Usuario no encontrado" });
+
+                    return res.status(204).json({ error: "Registro incompleto" });
+                    
                 }
             }
         );
@@ -249,7 +250,7 @@ export const deleteOneAchievement = async (req: Request, res: Response) => {
     );
 };
 
-export const updateOneAchievement = async (req: Request, res: Response) => {};
+export const updateOneAchievement = async (req: Request, res: Response) => { };
 
 
 export const updateCompetencesProfile = async (req: Request, res: Response) => {
