@@ -1,14 +1,10 @@
-import { response } from 'express';
 import { DataUpdateUser,IUser } from "./../interfaces/interface";
 import { Request, Response } from 'express';
 import User from "../models/users.models";
 import Competences from "../models/competences.models";
 import { uploadImage } from "../helpers/uploadFile";
 import { checkEmail, existUserById } from "../helpers/validateUser";
-import { existCompetenceByName } from '../helpers/competenceValidation';
-import Competence from '../models/competences.models';
 import { unaulaApi } from '../services/summoner';
-import Message from '../models/messages.models';
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
@@ -54,7 +50,6 @@ export const login = async (req: Request, res: Response) => {
 export const setUsers = async (req: Request, res: Response) => {
     const { ...data } = req.body;
     
-
     const username = checkEmail(data.username);
     //console.log(username)
     data.username = username;
@@ -110,13 +105,15 @@ export const getOneUser = async (req: Request, res: Response) => {
         data.rol = response.data[0].rol;
         data.faculty = response.data[0].strfacultyname;
         data.department = response.data[0].strDepartmentName;
+
+        //todo si esta en la api de pablo 
         return true;
 
     }).catch((error) => {
         console.log( error);
     })
-
-    if (!userApi) return   res.status(204).json('Contenido no encontrado');
+    //TODO: Si no esta en el api de pablo
+    if (!userApi) return res.status(404).json('Contenido no encontrado');
 
     await User.findOne({ username: userParam }, (err: any, user: any) => {
         Competences.populate(
@@ -128,13 +125,16 @@ export const getOneUser = async (req: Request, res: Response) => {
 
                 if (user) {
 
+                    //TODO si esta en las dos api
                     data = {...data, ...user._doc };
 
                     return res.status(200).json(data);
                 } else {
+
+                    //TODO si no esta en api de nosotros
                     return res
-                        .status(404)
-                        .json({ error: "Usuario no encontrado" });
+                        .status(204)
+                        .json(data);
                 }
             }
         );

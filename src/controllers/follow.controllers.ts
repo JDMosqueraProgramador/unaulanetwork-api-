@@ -34,6 +34,7 @@ export const unfollow = async (req: Request, res: Response) => {
 
 //**Método para ver los seguidos
 export const myFollowings = async (req: Request, res: Response) => {
+    
     if (req.params.id == null || req.params.id == undefined) {
         return res
             .status(400)
@@ -65,14 +66,14 @@ export const myFollowings = async (req: Request, res: Response) => {
                         response.data[counter] != null ||
                         response.data[counter] != undefined
                     ) {
-                         let dataFollowing = {
-                             id_following: e.following,
-                             name: response.data[counter].strName,
-                             faculty: response.data[counter].strfacultyname,
-                             username: data.username,
-                             profilePicture: data.profilePicture,
-                         };
-                         Following.push(dataFollowing);
+                        let dataFollowing = {
+                            id_following: e.following,
+                            name: response.data[counter].strName,
+                            faculty: response.data[counter].strfacultyname,
+                            username: data.username,
+                            profilePicture: data.profilePicture,
+                        };
+                        Following.push(dataFollowing);
                     }else{
                         let dataFollowing = {
                             id_following: e.following,
@@ -82,7 +83,6 @@ export const myFollowings = async (req: Request, res: Response) => {
                         Following.push(dataFollowing);
                     }
 
-                   
 
                     if (
                         i == result.length - 1 ||

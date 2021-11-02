@@ -32,7 +32,6 @@ Router.post(
     "/",
     [
         upload.single("profilePicture"),
-        check("username").custom(validationUser),
         fixArrays],
         userSchemaValidator,
         validateInfo
@@ -65,7 +64,6 @@ Router.delete("/:username/deleteAchievement",
     validateInfo],
     deleteOneAchievement);
 
-    
 Router.put(
     "/updateCompetences/:username",
     [upload.none()],
