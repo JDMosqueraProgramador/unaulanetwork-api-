@@ -1,4 +1,5 @@
 import { DataUpdateUser,IUser } from "./../interfaces/interface";
+import { response } from 'express';
 import { Request, Response } from 'express';
 import User from "../models/users.models";
 import Competences from "../models/competences.models";
@@ -54,11 +55,7 @@ export const setUsers = async (req: Request, res: Response) => {
     //console.log(username)
     data.username = username;
 
-    if (!data.achievement == null || !data.achievement == undefined) {
-        let filterAchivement = data.achievement.filter((a: any) => a != "");
-
-        data.achievement = filterAchivement;
-    }
+    
 
     if (req.file) {
         const { path } = req.file;
@@ -92,10 +89,10 @@ export const getOneUser = async (req: Request, res: Response) => {
 
     console.log(userParam);
 
-    let data: IUser = {} ;
+    let data: IUser = {};
 
-    const userApi =  await unaulaApi.get(`users/studentinfo/?userName=${userParam}`).then((response) => {
-        
+    const userApi = await unaulaApi.get(`users/studentinfo/?userName=${userParam}`).then((response) => {
+
         if (response.data.length == 0) {
 
             return false;
@@ -110,10 +107,12 @@ export const getOneUser = async (req: Request, res: Response) => {
         return true;
 
     }).catch((error) => {
-        console.log( error);
+        console.log(error);
     })
     //TODO: Si no esta en el api de pablo
     if (!userApi) return res.status(404).json('Contenido no encontrado');
+
+    if (!userApi) return res.status(404).json('Usuario no encontrado');
 
     await User.findOne({ username: userParam }, (err: any, user: any) => {
         Competences.populate(
@@ -127,14 +126,18 @@ export const getOneUser = async (req: Request, res: Response) => {
 
                     //TODO si esta en las dos api
                     data = {...data, ...user._doc };
+                    data = { ...data, ...user._doc };
 
                     return res.status(200).json(data);
+
                 } else {
 
                     //TODO si no esta en api de nosotros
                     return res
                         .status(204)
                         .json(data);
+                    return res.status(204).json({ error: "Registro incompleto" });
+                    
                 }
             }
         );
@@ -249,7 +252,7 @@ export const deleteOneAchievement = async (req: Request, res: Response) => {
     );
 };
 
-export const updateOneAchievement = async (req: Request, res: Response) => {};
+export const updateOneAchievement = async (req: Request, res: Response) => { };
 
 
 export const updateCompetencesProfile = async (req: Request, res: Response) => {
