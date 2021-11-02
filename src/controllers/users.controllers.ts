@@ -96,12 +96,14 @@ export const getOneUser = async (req: Request, res: Response) => {
         if (response.data.length == 0) {
 
             return false;
-
         }
+
         data.name = response.data[0].strName;
         data.rol = response.data[0].rol;
         data.faculty = response.data[0].strfacultyname;
         data.department = response.data[0].strDepartmentName;
+
+        console.log(data);
 
         //todo si esta en la api de pablo 
         return true;
@@ -110,7 +112,6 @@ export const getOneUser = async (req: Request, res: Response) => {
         console.log(error);
     })
     //TODO: Si no esta en el api de pablo
-    if (!userApi) return res.status(404).json('Contenido no encontrado');
 
     if (!userApi) return res.status(404).json('Usuario no encontrado');
 
@@ -126,17 +127,15 @@ export const getOneUser = async (req: Request, res: Response) => {
 
                     //TODO si esta en las dos api
                     data = {...data, ...user._doc };
-                    data = { ...data, ...user._doc };
 
                     return res.status(200).json(data);
 
                 } else {
 
+                    console.log(data);
+                    
                     //TODO si no esta en api de nosotros
-                    return res
-                        .status(204)
-                        .json(data);
-                    return res.status(204).json({ error: "Registro incompleto" });
+                    return res.status(203).json(data);
                     
                 }
             }
