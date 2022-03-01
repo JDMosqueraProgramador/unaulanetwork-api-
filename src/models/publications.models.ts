@@ -8,12 +8,8 @@ const publiactionSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
-    visibility: {
+    description: {
         type: String,
-        required: true,
-    },
-    group: {
-        type: mongoose.Schema.Types.ObjectId,
         required: false,
     },
     publicationDate: {
@@ -24,8 +20,12 @@ const publiactionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    description: {
+    visibility: {
         type: String,
+        required: true,
+    },
+    group: {
+        type: mongoose.Schema.Types.ObjectId,
         required: false,
     },
     reactions: {

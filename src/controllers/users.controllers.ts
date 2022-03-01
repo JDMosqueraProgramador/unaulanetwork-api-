@@ -126,7 +126,7 @@ export const getOneUser = async (req: Request, res: Response) => {
                 if (user) {
 
                     //TODO si esta en las dos api
-                    data = {...data, ...user._doc };
+                    data = {...data, ...user};
 
                     return res.status(200).json(data);
 
