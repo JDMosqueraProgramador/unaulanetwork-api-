@@ -2,7 +2,10 @@ import express from 'express';
 import { createPublication } from '../controllers/publication.controllers';
 
 
-const router = express.Router();
+const Router = express.Router();
 
-router.post("/post", createPublication)
+Router.post("/post", createPublication)
+
+
+export default Router;
 

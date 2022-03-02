@@ -7,6 +7,7 @@ import proyectsRouter from "./routers/proyects.router"
 import userRouter from "./routers/users.router";
 import competencesRouter from "./routers/competences.router";
 import followRouter from "./routers/follow.router";
+import publicationsRouter from "./routers/publications.router"
 
 const app: Application = express();
 
@@ -23,7 +24,7 @@ app.use("/competences",competencesRouter);
 app.use("/follow", followRouter);
 
 app.use("/proyects", proyectsRouter);
-
+app.use("/publications", publicationsRouter )
 
 export default app;
 
