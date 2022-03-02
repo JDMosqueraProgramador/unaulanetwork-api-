@@ -4,5 +4,5 @@ import { createPublication } from '../controllers/publication.controllers';
 
 const router = express.Router();
 
-router.get()
+router.post("/post", createPublication)
 
