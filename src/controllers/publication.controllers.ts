@@ -6,8 +6,6 @@ export const createPublication = async(req:Request, res:Response) =>{
     
    
    
-
-
      const data = {
          user: req.body.user,
          description: req.body.description,

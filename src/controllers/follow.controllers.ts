@@ -12,6 +12,7 @@ export const follow = async (req: Request, res: Response) => {
         follower: id,
     };
 
+    console.log(data)
     const follow = new Follower(data);
 
     await follow.save((err: any, user: any) => {
@@ -20,7 +21,8 @@ export const follow = async (req: Request, res: Response) => {
                 message: `Error al seguir al usuario ${err}`,
             });
 
-        res.status(200).json({ messague: "Se siguio al usuario" });
+
+        res.status(200).json({ message: `Ahora estás siguiendo a esta persona`});
     });
 };
 
