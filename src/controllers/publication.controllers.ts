@@ -4,16 +4,35 @@ import { Request, Response } from "express";
 
 export const createPublication = async(req:Request, res:Response) =>{
     
-    console.log(req.body)
-    
-    const {id, desc, visibility} = req.body;
+   
+   
 
 
      const data = {
-         user: req.body.id,
+         user: req.body.user,
          description: req.body.description,
-         visibility: req.body.visibility
+         media:req.body.media,
+         publicationDate: new Date(),
+         category: req.body.category,
+         visibility: req.body.visibility,
+         group: req.body.group,
+         reactions: "like",
+         comments: [],
+         hashtags: req.body.hashtags
     }
 
-    res.status(200).json({message:"Bien xd"})
+    const publication = new Publication(data);
+
+    await publication.save((err:any, publication:any) =>{
+
+        if(err){
+            res.status(500).send({
+                message: `Ha ocurrido un error al publicar: ${err}`
+            })
+        }
+
+        res.status(200).send({message:"Se ha publicado con éxito"})
+    })
+
+    
 }

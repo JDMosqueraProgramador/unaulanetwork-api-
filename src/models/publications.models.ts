@@ -12,6 +12,10 @@ const publiactionSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    media:[{
+        type: String,
+        required:false
+    }],
     publicationDate: {
         type: Date,
         require: true,
