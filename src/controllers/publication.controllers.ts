@@ -1,10 +1,10 @@
-import Publication from "../models/publications.models";
+import Publication from '../models/publications.models';
 import { Request, Response } from "express";
 
 
 export const createPublication = async(req:Request, res:Response) =>{
     
-   
+  
    
      const data = {
          user: req.body.user,
@@ -20,16 +20,18 @@ export const createPublication = async(req:Request, res:Response) =>{
     }
 
     const publication = new Publication(data);
-
+   
     await publication.save((err:any, publication:any) =>{
 
         if(err){
-            res.status(500).send({
+            return res.status(500).send({
                 message: `Ha ocurrido un error al publicar: ${err}`
+                
             })
+            
         }
 
-        res.status(200).send({message:"Se ha publicado con éxito"})
+       return res.status(200).send({message:"Se ha publicado con éxito"})
     })
 
     

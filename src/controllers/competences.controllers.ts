@@ -92,16 +92,3 @@ export const updateOneCompetence = async (req: Request, res: Response) =>{
 
 
 }   
-
-//Posible reutilizacion en otro lugar
- // if(name == ""){
-    //     return res.status(400).json({
-    //         error: "El nombre de la competencia NO debe estar vacío"
-    //     })
-    // }
-
-    //  if(description == ""){
-    //     return res.status(400).json({
-    //         error: "La descripción de la competencia NO debe estar vacía"
-    //     })
-    // }
