@@ -12,7 +12,6 @@ export const follow = async (req: Request, res: Response) => {
         follower: id,
     };
 
-    console.log(data)
     const follow = new Follower(data);
 
     await follow.save((err: any, user: any) => {
