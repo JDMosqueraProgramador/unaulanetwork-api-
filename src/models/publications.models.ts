@@ -33,9 +33,8 @@ const publiactionSchema = new mongoose.Schema({
         required: false,
     },
     reactions: {
-        type: String,
-        enum: ['like'],
-        required: false,
+        type: Number,
+        required: true,
     },
     comments: [
         {
