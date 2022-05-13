@@ -1,8 +1,5 @@
 const { body, checkSchema, validationResult } = require("express-validator");
-import Competence from '../models/competences.models';
-import { existCompetenceByName } from '../helpers/competenceValidation';
-import { NextFunction, Request, Response, request, response } from 'express';
-import { validate } from 'uuid';
+import { NextFunction, Request, Response} from 'express';
 
 
 const competenceSchemaValidator = [

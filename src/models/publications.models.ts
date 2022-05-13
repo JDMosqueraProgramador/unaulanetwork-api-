@@ -16,10 +16,6 @@ const publiactionSchema = new mongoose.Schema({
         type: String,
         required:false
     }],
-    publicationDate: {
-        type: Date,
-        require: true,
-    },
     category: {
         type: String,
         required: true,
@@ -27,6 +23,7 @@ const publiactionSchema = new mongoose.Schema({
     visibility: {
         type: String,
         required: true,
+        enum:['public', 'private']
     },
     group: {
         type: mongoose.Schema.Types.ObjectId,
@@ -57,7 +54,7 @@ const publiactionSchema = new mongoose.Schema({
         type: String,
         required: false,
     }]
-});
+}, {timestamps:true});
 
 const Publication = mongoose.model("Publication", publiactionSchema);
 

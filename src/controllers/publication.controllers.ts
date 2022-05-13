@@ -10,7 +10,7 @@ export const createPublication = async (req: Request, res: Response) => {
         category: req.body.category,
         visibility: req.body.visibility,
         group: req.body.group,
-        reactions: "like",
+        reactions: 0,
         comments: [],
         hashtags: req.body.hashtags,
     };
